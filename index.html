@@ -1,0 +1,852 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CutiLuminar — Catálogo 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #111827;
+  --dark: #1E3A8A;
+  --gold: #6D28D9;
+  --gold-light: #7C3AED;
+  --gold-subtle: #EDE9FE;
+  --white: #FFFFFF;
+  --bg: #F7F7FB;
+  --card: #FFFFFF;
+  --border: #E2E8F0;
+  --text: #111827;
+  --muted: #64748B;
+  --light: #F0F0F8;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 20px rgba(0,0,0,0.07);
+  --shadow-hover: 0 8px 40px rgba(0,0,0,0.13);
+  --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+
+/* ─── NAV ─────────────────────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:var(--transition)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;gap:24px}
+.nav-brand{font-size:1.15rem;font-weight:800;letter-spacing:-0.5px;color:var(--black);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.nav-brand span{color:var(--gold)}
+.nav-links{display:flex;gap:4px;align-items:center;flex:1;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{padding:6px 12px;border-radius:8px;font-size:0.82rem;font-weight:500;color:var(--muted);white-space:nowrap;transition:var(--transition)}
+.nav-links a:hover{color:var(--text);background:var(--bg)}
+.nav-wa{display:flex;align-items:center;gap:7px;background:var(--black);color:#fff;padding:9px 16px;border-radius:50px;font-size:0.8rem;font-weight:600;white-space:nowrap;transition:var(--transition);flex-shrink:0}
+.nav-wa:hover{background:var(--gold);color:#fff}
+.nav-wa svg{flex-shrink:0}
+
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:80px 20px 60px;position:relative;overflow:hidden;background:var(--black)}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(109,40,217,0.22) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 80% 100%,rgba(219,39,119,0.14) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:700px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(109,40,217,0.15);border:1px solid rgba(109,40,217,0.3);color:var(--gold-light);padding:6px 16px;border-radius:50px;font-size:0.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:28px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-size:clamp(2.4rem,7vw,5rem);font-weight:800;line-height:1.08;letter-spacing:-2px;color:#fff;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,0.55);max-width:480px;margin:0 auto 36px;font-weight:400}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:#fff;padding:14px 28px;border-radius:50px;font-size:0.9rem;font-weight:700;transition:var(--transition);letter-spacing:0.3px}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(109,40,217,0.4)}
+.btn-ghost{background:rgba(255,255,255,0.08);color:#fff;padding:14px 28px;border-radius:50px;font-size:0.9rem;font-weight:600;border:1px solid rgba(255,255,255,0.15);transition:var(--transition);display:flex;align-items:center;gap:8px}
+.btn-ghost:hover{background:rgba(255,255,255,0.15)}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.3);font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:scrollLine 2s ease-in-out infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ─── CONTAINER ─────────────────────────────────────────── */
+.container{max-width:1280px;margin:0 auto;padding:0 20px}
+
+/* ─── SEARCH BAR ────────────────────────────────────────── */
+.search-bar-wrap{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:90;padding:14px 0}
+.search-bar-inner{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search-input-wrap{position:relative;flex:1;min-width:200px}
+.search-input-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+#searchInput{width:100%;padding:10px 14px 10px 42px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;transition:var(--transition)}
+#searchInput:focus{border-color:var(--gold);background:#fff}
+select.filter-select{padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:0.85rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;cursor:pointer;transition:var(--transition);min-width:140px}
+select.filter-select:focus{border-color:var(--gold);background:#fff}
+.btn-clear{padding:10px 16px;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--muted);border:1.5px solid var(--border);background:transparent;transition:var(--transition)}
+.btn-clear:hover{border-color:var(--text);color:var(--text)}
+.result-count{font-size:0.82rem;color:var(--muted);white-space:nowrap;padding:0 4px}
+
+/* ─── SECTION HEADERS ────────────────────────────────────── */
+.section{padding:60px 0}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;gap:16px}
+.section-title{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;letter-spacing:-0.5px;color:var(--black)}
+.section-title span{color:var(--gold)}
+.section-sub{font-size:0.88rem;color:var(--muted);margin-top:4px;font-weight:400}
+.section-divider{height:3px;width:40px;background:var(--gold);border-radius:4px;margin:10px 0 0}
+.badge-count{background:var(--bg);border:1px solid var(--border);color:var(--muted);font-size:0.78rem;font-weight:600;padding:4px 10px;border-radius:50px}
+
+/* ─── FEATURED ────────────────────────────────────────────── */
+#featured{background:var(--light);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.featured-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+
+/* ─── PRODUCT GRID ────────────────────────────────────────── */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+
+/* ─── CARD ────────────────────────────────────────────────── */
+.card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:var(--transition);position:relative;display:flex;flex-direction:column}
+.card:hover{box-shadow:var(--shadow-hover);border-color:rgba(109,40,217,0.25);transform:translateY(-3px)}
+.card-img{aspect-ratio:1;background:linear-gradient(135deg,#F0EFE8 0%,#E8E7DF 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+.card:hover .card-img img{transform:scale(1.06)}
+.card-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);padding:20px}
+.card-placeholder svg{opacity:0.35}
+.card-placeholder span{font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;opacity:0.6}
+.card-badge{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:50px;font-size:0.68rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;z-index:1}
+.badge-popular{background:#111;color:#fff}
+.badge-premium{background:var(--gold);color:#fff}
+.badge-new{background:#16A34A;color:#fff}
+.card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:8px}
+.card-cat{font-size:0.72rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.8px}
+.card-name{font-size:0.92rem;font-weight:700;line-height:1.3;color:var(--black)}
+.card-desc{font-size:0.78rem;color:var(--muted);line-height:1.5;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-price{font-size:1.2rem;font-weight:800;color:var(--black);letter-spacing:-0.5px}
+.card-actions{display:flex;gap:8px;margin-top:4px}
+.btn-wa{flex:1;background:var(--black);color:#fff;padding:10px 12px;border-radius:var(--radius-sm);font-size:0.8rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--transition)}
+.btn-wa:hover{background:#25D366;transform:none}
+.btn-add{background:var(--gold-subtle);color:var(--gold);border:1.5px solid rgba(109,40,217,0.25);width:42px;height:42px;border-radius:var(--radius-sm);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;font-weight:700}
+.btn-add:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.btn-add.added{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+/* ─── CATEGORY NAV ────────────────────────────────────────── */
+.cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.cat-pill{padding:8px 18px;border-radius:50px;font-size:0.82rem;font-weight:600;border:1.5px solid var(--border);color:var(--muted);background:var(--white);transition:var(--transition);cursor:pointer}
+.cat-pill:hover{border-color:var(--text);color:var(--text)}
+.cat-pill.active{background:var(--black);color:#fff;border-color:var(--black)}
+
+/* ─── CONTACT ────────────────────────────────────────────── */
+#contacto{background:var(--black);color:#fff;padding:80px 0}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.contact-left h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:16px}
+.contact-left h2 span{color:var(--gold)}
+.contact-left p{color:rgba(255,255,255,0.55);font-size:0.95rem;line-height:1.7;margin-bottom:32px}
+.contact-info{display:flex;flex-direction:column;gap:14px}
+.contact-info-item{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.7);font-size:0.88rem}
+.contact-info-item svg{color:var(--gold);flex-shrink:0}
+.btn-wa-big{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:16px 32px;border-radius:50px;font-size:1rem;font-weight:700;transition:var(--transition)}
+.btn-wa-big:hover{background:#20B858;transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,211,102,0.35)}
+.contact-right{display:flex;flex-direction:column;gap:16px}
+.contact-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);padding:24px;display:flex;align-items:center;gap:16px}
+.contact-card-icon{width:48px;height:48px;border-radius:12px;background:rgba(109,40,217,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-card-text h4{font-size:0.82rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.contact-card-text p{font-size:0.95rem;font-weight:600;color:#fff}
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+footer{background:#0A0A0B;padding:28px 20px;text-align:center}
+.footer-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-brand{font-size:0.95rem;font-weight:800;color:#fff}
+.footer-brand span{color:var(--gold)}
+.footer-links{display:flex;gap:16px;align-items:center}
+.footer-links a{color:rgba(255,255,255,0.4);font-size:0.8rem;transition:var(--transition)}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{color:rgba(255,255,255,0.25);font-size:0.75rem}
+
+/* ─── FLOATING BUTTONS ───────────────────────────────────── */
+.fab-group{position:fixed;bottom:24px;right:20px;display:flex;flex-direction:column;gap:12px;z-index:200;align-items:flex-end}
+.fab-wa{width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.45);transition:var(--transition);text-decoration:none}
+.fab-wa:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,0.6)}
+.fab-cart{display:flex;align-items:center;gap:10px;background:var(--black);color:#fff;padding:0 20px 0 16px;height:52px;border-radius:50px;font-size:0.85rem;font-weight:700;box-shadow:0 4px 24px rgba(0,0,0,0.3);transition:var(--transition);cursor:pointer;border:none;font-family:inherit}
+.fab-cart:hover{background:var(--gold)}
+.fab-cart-count{background:var(--gold);color:#fff;width:22px;height:22px;border-radius:50%;font-size:0.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fab-up{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:center;transition:var(--transition);cursor:pointer;border:1px solid rgba(255,255,255,0.1)}
+.fab-up:hover{background:var(--black)}
+
+/* ─── CART DRAWER ────────────────────────────────────────── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;right:0;top:0;bottom:0;width:min(420px,100vw);background:#fff;z-index:301;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.cart-head{padding:20px 20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-head h3{font-size:1.05rem;font-weight:800}
+.cart-close{width:36px;height:36px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:var(--transition)}
+.cart-close:hover{background:var(--border);color:var(--text)}
+.cart-items{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;color:var(--muted)}
+.cart-empty svg{opacity:0.2}
+.cart-empty p{font-size:0.9rem}
+.cart-item{display:flex;gap:12px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--light)}
+.cart-item-img{width:52px;height:52px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.cart-item-img img{width:100%;height:100%;object-fit:cover}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:0.82rem;font-weight:700;line-height:1.3;margin-bottom:3px}
+.cart-item-price{font-size:0.9rem;font-weight:800;color:var(--black)}
+.cart-item-remove{color:var(--muted);font-size:1.1rem;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:var(--transition);flex-shrink:0;margin-top:2px}
+.cart-item-remove:hover{background:rgba(239,68,68,0.1);color:#EF4444}
+.cart-foot{padding:16px 20px;border-top:1px solid var(--border)}
+.cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-weight:700;font-size:1rem}
+.cart-total-price{font-size:1.35rem;font-weight:800;color:var(--black)}
+.btn-send-cart{width:100%;background:#25D366;color:#fff;padding:14px;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--transition)}
+.btn-send-cart:hover{background:#20B858}
+.btn-send-cart:disabled{opacity:0.4;pointer-events:none}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────── */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.5s ease,transform 0.5s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+.stagger-1{transition-delay:0.05s}
+.stagger-2{transition-delay:0.10s}
+.stagger-3{transition-delay:0.15s}
+.stagger-4{transition-delay:0.20s}
+
+/* ─── CATEGORY SECTIONS ──────────────────────────────────── */
+.all-products-section{padding:40px 0 80px}
+.category-block{margin-bottom:60px}
+.category-block-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.category-block-icon{width:44px;height:44px;border-radius:12px;background:var(--gold-subtle);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.category-block-title{font-size:1.2rem;font-weight:800;color:var(--black)}
+.category-block-count{font-size:0.78rem;color:var(--muted);margin-top:2px}
+
+/* ─── RESPONSIVE ──────────────────────────────────────────── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .contact-inner{grid-template-columns:1fr}
+  .contact-right{display:none}
+  .footer-inner{flex-direction:column;text-align:center}
+  .products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .featured-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .card-body{padding:12px}
+  .card-name{font-size:0.85rem}
+  .card-price{font-size:1.05rem}
+  .search-bar-inner{gap:8px}
+  select.filter-select{min-width:0;flex:1}
+}
+@media(max-width:480px){
+  .products-grid{grid-template-columns:1fr 1fr}
+  .featured-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ─── SKELETON ──────────────────────────────────────────── */
+.skeleton{background:linear-gradient(90deg,#f0f0ec 25%,#e8e8e4 50%,#f0f0ec 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ─── HERO LOGO ─────────────────────────────────────────── */
+.hero-logo{display:flex;justify-content:center;margin-bottom:24px}
+.hero-logo-svg{filter:drop-shadow(0 6px 28px rgba(123,47,190,0.55));border-radius:50%}
+
+/* ─── NO RESULTS ────────────────────────────────────────── */
+.no-results{text-align:center;padding:60px 20px;color:var(--muted)}
+.no-results svg{margin:0 auto 16px;opacity:0.3}
+.no-results h3{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.no-results p{font-size:0.88rem}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand" id="navBrand">BRAND <span>STORE</span></a>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="#perfumes">Perfumes</a>
+      <a href="#gadgets">Tecnología</a>
+      <a href="#auriculares">Auriculares</a>
+      <a href="#parlantes">Parlantes</a>
+      <a href="#cargadores">Cargadores</a>
+      <a href="#cables">Cables</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <a href="#" class="nav-wa" id="navWA">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+      Consultar
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-logo">
+      <svg width="110" height="110" viewBox="0 0 100 100" class="hero-logo-svg">
+        <defs>
+          <linearGradient id="hgr" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#6D28D9"/>
+            <stop offset="100%" stop-color="#DB2777"/>
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="50" fill="url(#hgr)"/>
+        <path d="M18 52 C18 25 82 25 82 52" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <rect x="10" y="48" width="16" height="22" rx="8" fill="white"/>
+        <rect x="74" y="48" width="16" height="22" rx="8" fill="white"/>
+      </svg>
+    </div>
+    <div class="hero-tag">✦ CutiLuminar Store 2026</div>
+    <h1>Tecnología al<br><em>alcance</em><br>de tus manos</h1>
+    <p>Electrónica, iluminación, regalos y más · Todo lo que necesitás, al mejor precio.</p>
+    <div class="hero-btns">
+      <a href="#productos" class="btn-primary">Ver productos</a>
+      <a href="#" class="btn-ghost nav-wa-hero">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div></div>
+</section>
+
+<!-- SEARCH BAR -->
+<div class="search-bar-wrap" id="productos">
+  <div class="container">
+    <div class="search-bar-inner">
+      <div class="search-input-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar producto…" autocomplete="off">
+      </div>
+      <select class="filter-select" id="catFilter">
+        <option value="all">Todas las categorías</option>
+        <option value="perfumes">Perfumes</option>
+        <option value="auriculares">Auriculares</option>
+        <option value="parlantes">Parlantes y audio</option>
+        <option value="soportes">Soportes</option>
+        <option value="gadgets">Gadgets y tecnología</option>
+        <option value="cargadores">Cargadores y power banks</option>
+        <option value="cables">Cables y adaptadores</option>
+        <option value="deco">Deco / luces</option>
+        <option value="otros">Otros</option>
+      </select>
+      <select class="filter-select" id="sortOrder" style="min-width:160px">
+        <option value="default">Orden por defecto</option>
+        <option value="price-asc">Menor precio</option>
+        <option value="price-desc">Mayor precio</option>
+        <option value="name-az">Nombre A–Z</option>
+      </select>
+      <span class="result-count" id="resultCount"></span>
+      <button class="btn-clear" id="clearBtn">Limpiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURED -->
+<section id="featured" class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div>
+        <div class="section-title">⭐ <span>Destacados</span></div>
+        <div class="section-sub">Los productos más consultados de nuestro catálogo</div>
+        <div class="section-divider"></div>
+      </div>
+    </div>
+    <div class="featured-grid" id="featuredGrid"></div>
+  </div>
+</section>
+
+<!-- ALL PRODUCTS -->
+<div class="all-products-section container" id="allProductsWrap">
+</div>
+
+<!-- CONTACT -->
+<section id="contacto">
+  <div class="container contact-inner">
+    <div class="contact-left fade-in">
+      <h2>Consultas<br>y <span>pedidos</span></h2>
+      <p>¿Querés saber más sobre algún producto? Escribinos por WhatsApp y te respondemos al instante. Trabajamos con envíos a todo el país.</p>
+      <div class="contact-info" style="margin-bottom:28px">
+        <div class="contact-info-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="ubicacion">[UBICACIÓN]</span>
+        </div>
+        <div class="contact-info-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="horarios">[HORARIOS]</span>
+        </div>
+        <div class="contact-info-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <span id="instagram">@[INSTAGRAM]</span>
+        </div>
+      </div>
+      <a href="#" class="btn-wa-big" id="contactWA">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+        Escribinos por WhatsApp
+      </a>
+    </div>
+    <div class="contact-right fade-in">
+      <div class="contact-card">
+        <div class="contact-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="contact-card-text"><h4>Ubicación</h4><p id="ubicacion2">[UBICACIÓN]</p></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="contact-card-text"><h4>Horarios</h4><p id="horarios2">[HORARIOS]</p></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="contact-card-text"><h4>Instagram</h4><p id="instagram2">@[INSTAGRAM]</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand" id="footerBrand">BRAND <span>STORE</span></div>
+    <div class="footer-links">
+      <a href="#" id="footerWA">WhatsApp</a>
+      <a href="#" id="footerIG">Instagram</a>
+    </div>
+    <div class="footer-copy">© 2026 CutiLuminar · Tecnología al alcance de tus manos · Todos los precios en pesos argentinos</div>
+  </div>
+</footer>
+
+<!-- FAB GROUP -->
+<div class="fab-group">
+  <button class="fab-up" id="fabUp" title="Volver arriba" style="display:none">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <button class="fab-cart" id="fabCart">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.99-1.61L23 6H6"/></svg>
+    Mi consulta
+    <span class="fab-cart-count" id="cartCount">0</span>
+  </button>
+  <a href="#" class="fab-wa" id="fabWA" title="WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+  </a>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Mi consulta 🛒</h3>
+    <button class="cart-close" id="cartClose">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total">
+      <span>Total estimado</span>
+      <span class="cart-total-price" id="cartTotal">$0</span>
+    </div>
+    <button class="btn-send-cart" id="sendCartBtn" disabled>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+      Enviar consulta por WhatsApp
+    </button>
+  </div>
+</div>
+
+<script>
+// ─── CONFIGURACIÓN ──────────────────────────────────────────
+// EDITAR ESTOS VALORES:
+const WA_NUMBER = '549XXXXXXXXXX'; // ← Cambiá este número
+const BRAND_NAME = 'Cuti Luminar'; // ← Cambiá este nombre
+const INSTAGRAM = '@cutiluminar_ok'; // ← Cambiá tu Instagram
+const UBICACION = 'Argentina';      // ← Cambiá tu ubicación
+const HORARIOS = 'Lun–Vie 9:00–18:00 · Sáb 10:00–14:00'; // ← Cambiá horarios
+
+// ─── CATEGORÍAS ──────────────────────────────────────────────
+const CATS = {
+  perfumes:    { name: 'Perfumes', icon: '🌸' },
+  auriculares: { name: 'Auriculares', icon: '🎧' },
+  parlantes:   { name: 'Parlantes y audio', icon: '🔊' },
+  soportes:    { name: 'Soportes', icon: '📱' },
+  gadgets:     { name: 'Gadgets y tecnología', icon: '💡' },
+  cargadores:  { name: 'Cargadores y power banks', icon: '⚡' },
+  cables:      { name: 'Cables y adaptadores', icon: '🔌' },
+  deco:        { name: 'Deco / luces', icon: '✨' },
+  otros:       { name: 'Otros', icon: '📦' },
+};
+
+// ─── PRODUCTOS ───────────────────────────────────────────────
+// Para agregar/editar productos: modificar este array.
+// Cada producto: { id, name, desc, price, cat, image, badge, featured }
+// image: ruta a imagen local (ej: 'img/producto.jpg') o URL. Dejar '' para placeholder.
+// badge: 'popular' | 'premium' | 'new' | ''
+// featured: true/false
+
+const PRODUCTS = [
+  // ── PERFUMES ──────────────────────────────────────────────
+  {id:1,  name:'LATTAFA ECLAIRE 100ML FEM', desc:'Perfume floral frutal gourmand para mujeres, conocido por su aroma dulce, cremoso y elegante.', price:49600, cat:'perfumes', image:'img/image1.png', badge:'popular', featured:true},
+  {id:2,  name:'LATTAFA KHAMRAH EDP 100ML UNISEX', desc:'Mundialmente conocido por ser una fragancia cálida, dulce y avainillada, con una estela sumamente duradera y un empaque premium.', price:43040, cat:'perfumes', image:'img/image2.png', badge:'popular', featured:true},
+  {id:3,  name:'LATTAFA KHAMRAH DUKHAN EDP 100ML', desc:'Perfume oriental amaderado y especiado, inspirado en el antiguo ritual árabe de quemar perfume.', price:43040, cat:'perfumes', image:'img/image3.png', badge:'', featured:false},
+  {id:4,  name:'LATTAFA KHAMRAH QAHWA 100ML', desc:'Conocido por su alta duración, es una versión más exótica y adictiva del Khamrah original.', price:43040, cat:'perfumes', image:'img/image4.png', badge:'', featured:false},
+  {id:5,  name:'LATTAFA BADEE HONOR AND GLORY 100ML', desc:'Aroma seductor, cálido y dulce, destacando en cualquier ocasión.', price:40640, cat:'perfumes', image:'img/image5.png', badge:'', featured:false},
+  {id:6,  name:'LATTAFA BADEE AL OUD FOR GLORY 100ML', desc:'Perfume oscuro, opulento y lujoso. Alternativa accesible a Oud for Greatness de Initio.', price:38880, cat:'perfumes', image:'img/image6.png', badge:'', featured:false},
+  {id:7,  name:'ARMAF ODYSSEY MANDARIN SKY EDP 100ML', desc:'Fragancia masculina vibrante y moderna (familia Ámbar Amaderada). Excelente relación calidad-precio, estilo gourmand.', price:53760, cat:'perfumes', image:'img/image7.png', badge:'premium', featured:true},
+  {id:8,  name:'LATTAFA EMAAN U EDP 100ML', desc:'Perfume femenino, alternativa inspirada en My Way de Giorgio Armani. Flores blancas, cítricos y fondo cálido.', price:53760, cat:'perfumes', image:'img/image8.png', badge:'', featured:false},
+  {id:9,  name:'ARMAF ODYSSEY HOMME 100ML', desc:'Oriental especiada y dulce para hombres. Alternativa popular a Tom Ford Noir Extreme.', price:44800, cat:'perfumes', image:'img/image9.png', badge:'', featured:false},
+  {id:10, name:'ARMAF ODYSSEY HOMME WHITE 100ML', desc:'Similar aromáticamente a Emporio Armani Stronger With You. Excelente relación calidad-precio.', price:45280, cat:'perfumes', image:'img/image10.png', badge:'', featured:false},
+  {id:11, name:'ARMAF ODYSSEY SPECTRA 100ML', desc:'Fragancia Oriental Especiada. Aroma dulce, envolvente y ligeramente amaderado.', price:42880, cat:'perfumes', image:'img/image11.png', badge:'', featured:false},
+  {id:12, name:'NAUTICA VOYAGE EDT 100ML', desc:'Fragancia masculina amaderada acuática. Fresca, limpia y muy versátil.', price:36800, cat:'perfumes', image:'img/image12.png', badge:'', featured:false},
+  {id:13, name:'VENENO BIANCO FRENCH AVENUE EDP 100ML', desc:'Fragancia unisex floral ambarina. Aroma tropical, cremoso y adictivo.', price:76800, cat:'perfumes', image:'img/image13.png', badge:'premium', featured:false},
+  {id:14, name:'ART OF UNIVERSE LATTAFA EDP 100ML', desc:'Cítrica, fresca y amaderada. Alternativa económica al exclusivo Blue Talisman de Ex Nihilo.', price:65600, cat:'perfumes', image:'img/image14.png', badge:'', featured:false},
+  {id:15, name:'LIQUID BRUN FRENCH AVENUE EDP 100ML', desc:'Árabe de familia Amaderada Oriental Gourmand. Aroma cálido, especiado y dulce.', price:86400, cat:'perfumes', image:'img/image15.png', badge:'premium', featured:true},
+  {id:16, name:'WORLD CUP VIP ZAKAT EDP 80ML', desc:'Unisex Cítrica Aromática. Fresca, versátil y elegante. Rinde homenaje a la temporada del Mundial.', price:155200, cat:'perfumes', image:'img/image16.png', badge:'premium', featured:false},
+  {id:17, name:'SPECTRE GHOST EDP FRENCH AVENUE 80ML', desc:'Amaderada aromática, inspirado en el famoso perfume nicho Ani de Nishane.', price:76960, cat:'perfumes', image:'img/image17.png', badge:'', featured:false},
+  {id:18, name:'RASASI HAWAS ELIXIR 100ML', desc:'Oriental avainillada. Inicio fresco con base profunda y seductora. Gran duración y estela.', price:57600, cat:'perfumes', image:'img/image18.png', badge:'', featured:false},
+  {id:19, name:'RASASI HAWAS MALIBU 100ML', desc:'Aromática frutal ambarada. Vibra tropical y veraniega. Comparada con Jean Paul Gaultier Le Beau Le Parfum.', price:75200, cat:'perfumes', image:'img/image19.png', badge:'', featured:false},
+  {id:20, name:'RASASI HAWAS ECLAT 100ML', desc:'Floral oriental. Aroma luminoso, cremoso y ultra-femenino. Notas afrutadas, florales y cálidas.', price:65600, cat:'perfumes', image:'img/image20.png', badge:'', featured:false},
+  {id:21, name:'PARIS CORNER MARSHMALLOW BLUSH EDP', desc:'Gourmand dulce, frutal y cremoso. Fresa, frambuesa, flores y malvavisco. Estela reconfortante e irresistible.', price:64000, cat:'perfumes', image:'img/image21.png', badge:'new', featured:false},
+  // ── AURICULARES ───────────────────────────────────────────
+  {id:22, name:'Auricular Ezra BT Pastel', desc:'Bluetooth pastel. Disponible en Rosa y Celeste.', price:22514, cat:'auriculares', image:'img/image23.png', badge:'', featured:false},
+  {id:23, name:'Auricular Ezra Zero Noise TWS139', desc:'True Wireless. Color Celeste.', price:27500, cat:'auriculares', image:'img/image24.png', badge:'new', featured:false},
+  {id:24, name:'Auricular Ezra Hifi 062', desc:'Alta fidelidad. Disponible en Negro y Beige.', price:22600, cat:'auriculares', image:'img/image25.png', badge:'', featured:false},
+  {id:25, name:'Auricular AirPods 2da Generación', desc:'Diseño AirPods. Color Blanco.', price:22000, cat:'auriculares', image:'img/image26.jpeg', badge:'popular', featured:false},
+  {id:26, name:'Auricular A6S Económicos', desc:'TWS compactos. Color Negro.', price:6700, cat:'auriculares', image:'img/image27.png', badge:'', featured:false},
+  {id:27, name:'Auricular OWS Deportivos', desc:'Open Wear. Colores sujeto a stock.', price:10000, cat:'auriculares', image:'img/image28.png', badge:'', featured:false},
+  {id:28, name:'Auricular Samsung Cable USB-C', desc:'Con cable USB-C. Para Samsung y dispositivos compatibles.', price:7500, cat:'auriculares', image:'img/image29.png', badge:'', featured:false},
+  {id:29, name:'Auricular Super Bass Cable', desc:'Conexión auxiliar 3.5mm. Color Negro.', price:1900, cat:'auriculares', image:'img/image30.png', badge:'', featured:false},
+  {id:30, name:'Auricular Ezra Vincha BT Pure Bass', desc:'Vincha Bluetooth. Colores sujeto a stock.', price:26350, cat:'auriculares', image:'img/image31.png', badge:'', featured:false},
+  {id:31, name:'Auricular Legatus Vincha', desc:'Vincha Bluetooth con Luces LED.', price:15810, cat:'auriculares', image:'img/image32.png', badge:'', featured:false},
+  {id:32, name:'Auricular JBL Vincha', desc:'Vincha JBL. Color Verde.', price:30240, cat:'auriculares', image:'img/image33.png', badge:'popular', featured:false},
+  // ── PARLANTES Y AUDIO ──────────────────────────────────────
+  {id:33, name:'Mini Parlante BT Ezra', desc:'Negro con luces LED. Bluetooth compacto.', price:18010, cat:'parlantes', image:'img/image34.png', badge:'', featured:false},
+  {id:34, name:'Parlante con 2 Micrófonos Mini', desc:'Incluye 2 micrófonos. Color Celeste.', price:16800, cat:'parlantes', image:'img/image35.png', badge:'', featured:false},
+  {id:35, name:'Parlante JBL Flip 7', desc:'JBL original. Color Rojo. Waterproof, sonido premium.', price:43860, cat:'parlantes', image:'img/image36.png', badge:'popular', featured:true},
+  {id:36, name:'Parlante BT Led', desc:'Bluetooth con LEDs. Color Negro / Gris.', price:32256, cat:'parlantes', image:'img/image37.png', badge:'', featured:false},
+  {id:37, name:'Micrófono Karaoke', desc:'Bluetooth, juguete infantil.', price:12000, cat:'parlantes', image:'img/image38.png', badge:'', featured:false},
+  {id:38, name:'Micrófono Inalámbrico Royalcell', desc:'Profesional inalámbrico.', price:51300, cat:'parlantes', image:'img/image39.png', badge:'', featured:false},
+  {id:39, name:'Micrófono Corbatero x1', desc:'1 micrófono corbatero.', price:9160, cat:'parlantes', image:'img/image40.png', badge:'', featured:false},
+  {id:40, name:'Micrófono Corbatero x2', desc:'Pack de 2 micrófonos corbateros.', price:12000, cat:'parlantes', image:'img/image41.png', badge:'', featured:false},
+  // ── SOPORTES ──────────────────────────────────────────────
+  {id:41, name:'Soporte Extensible Sopapa N79', desc:'Para vidrio y tablero. Con sopapa extensible.', price:12075, cat:'soportes', image:'img/image42.png', badge:'', featured:false},
+  {id:42, name:'Soporte Rejilla Ajustable Fetuz', desc:'Para rejilla de ventilación. Ajustable.', price:8160, cat:'soportes', image:'img/image43.png', badge:'', featured:false},
+  {id:43, name:'Soporte Rejilla Magnético Ezra', desc:'Aro magnético para rejilla.', price:15300, cat:'soportes', image:'img/image44.png', badge:'', featured:false},
+  {id:44, name:'Soporte Rejilla Magnético Rectangular', desc:'Imán rectangular para rejilla.', price:7840, cat:'soportes', image:'img/image45.png', badge:'', featured:false},
+  {id:45, name:'Ezra Rejilla Rectángulo', desc:'Soporte de rejilla rectangular.', price:10600, cat:'soportes', image:'img/image46.png', badge:'', featured:false},
+  {id:46, name:'Soporte Magnético 2mt', desc:'Redondo pequeño con imán.', price:9800, cat:'soportes', image:'img/image47.png', badge:'', featured:false},
+  {id:47, name:'Ezra EZ-U03 Rejilla', desc:'Soporte pequeño y ajustable. Color Negro.', price:9000, cat:'soportes', image:'img/image48.png', badge:'', featured:false},
+  {id:48, name:'Ezra EZ-U01 Transparente', desc:'Estético y transparente. Para rejilla.', price:9980, cat:'soportes', image:'img/image49.png', badge:'', featured:false},
+  {id:49, name:'Estuche Bici con Soporte', desc:'Estuche antigolpes y antilluvia de goma.', price:14340, cat:'soportes', image:'img/image50.png', badge:'', featured:false},
+  {id:50, name:'Soporte Flexible de Mesa', desc:'Flexible para mesa. Colores sujeto a stock.', price:8400, cat:'soportes', image:'img/image51.png', badge:'', featured:false},
+  {id:51, name:'Soporte de Mesa Magnético Lambo', desc:'Magnético para mesa. Lambo Tech.', price:11000, cat:'soportes', image:'img/image52.png', badge:'', featured:false},
+  // ── GADGETS Y TECNOLOGÍA ──────────────────────────────────
+  {id:52, name:'Cámara Infantil con Impresora', desc:'Cámara de fotos para niños con impresora incluida. Verde y Violeta.', price:41440, cat:'gadgets', image:'img/image53.png', badge:'new', featured:false},
+  {id:53, name:'Nebulizador Portátil', desc:'Portable. Cable de carga incluido.', price:20000, cat:'gadgets', image:'img/image54.png', badge:'', featured:false},
+  {id:54, name:'Dron Led', desc:'Dron con luces LED. Excelente para regalos.', price:56000, cat:'gadgets', image:'img/image55.png', badge:'new', featured:true},
+  {id:55, name:'Linterna Lambo', desc:'Distintos niveles de intensidad. Incluye cargador portátil.', price:17600, cat:'gadgets', image:'img/image56.png', badge:'', featured:false},
+  {id:56, name:'Mouse Inalámbrico JWAP03', desc:'Mouse inalámbrico. Color Gris.', price:8300, cat:'gadgets', image:'img/image57.png', badge:'', featured:false},
+  {id:57, name:'Control Game Pad 2.4G Wireless', desc:'Gamepad inalámbrico completo. Sin pilas incluidas.', price:39000, cat:'gadgets', image:'img/image58.png', badge:'', featured:false},
+  {id:58, name:'Reloj Smartwatch Ezra', desc:'Smartwatch Ezra Negro. Pantalla a color.', price:56100, cat:'gadgets', image:'img/image59.png', badge:'popular', featured:true},
+  {id:59, name:'Neon BT Rítmico RGB', desc:'5mts de tubo NEON Bluetooth con control remoto.', price:32480, cat:'gadgets', image:'img/image60.png', badge:'new', featured:false},
+  {id:60, name:'Tira LED 5mt 5050 RGB', desc:'Conexión USB con control Bluetooth.', price:13200, cat:'gadgets', image:'img/image61.png', badge:'', featured:false},
+  {id:61, name:'Trípode con LED Lambo', desc:'Trípode con iluminación LED incorporada.', price:8400, cat:'gadgets', image:'img/image62.png', badge:'', featured:false},
+  {id:62, name:'Pizarra Digital Infantil', desc:'Juguete infantil. Diseños Minnie / Barbie. Rosas.', price:6517, cat:'gadgets', image:'img/image63.png', badge:'', featured:false},
+  {id:63, name:'Astronauta Parlante Proyector', desc:'Proyecta galaxias y estrellas. Bluetooth. Con control y base. Sin pilas.', price:43800, cat:'gadgets', image:'img/image64.png', badge:'popular', featured:true},
+  {id:64, name:'Pava Eléctrica Xades Eco Smart', desc:'Pava eléctrica Eco Smart de Xades.', price:30460, cat:'gadgets', image:'img/image65.png', badge:'', featured:false},
+  {id:65, name:'Cámara Deportiva GoPro', desc:'Calidad de grabación 1080p HD. Completa.', price:31900, cat:'gadgets', image:'img/image66.png', badge:'', featured:false},
+  {id:66, name:'Cámara Foco de Seguridad', desc:'Cámara de seguridad tipo foco.', price:31680, cat:'gadgets', image:'img/image67.png', badge:'', featured:false},
+  {id:67, name:'Cámara Lambo IP', desc:'Cámara de seguridad IP Lambo.', price:39760, cat:'gadgets', image:'img/image68.png', badge:'', featured:false},
+  {id:68, name:'Cámara Masuya de Seguridad', desc:'Cámara de seguridad Masuya.', price:40560, cat:'gadgets', image:'img/image69.png', badge:'', featured:false},
+  // ── CARGADORES Y POWER BANKS ──────────────────────────────
+  {id:69, name:'Cargador Auto Samsung', desc:'Puerto C + Cable C incluido.', price:9400, cat:'cargadores', image:'img/image70.png', badge:'', featured:false},
+  {id:70, name:'Cargador Auto Malibu', desc:'Cable Micro USB incluido.', price:7900, cat:'cargadores', image:'img/image71.png', badge:'', featured:false},
+  {id:71, name:'Cabezal Auto Pro21', desc:'Puertos C y USB.', price:5200, cat:'cargadores', image:'img/image72.png', badge:'', featured:false},
+  {id:72, name:'Cabezal Auto Treqa', desc:'Puertos C y USB.', price:8300, cat:'cargadores', image:'img/image73.png', badge:'', featured:false},
+  {id:73, name:'Cargador iPhone Completo', desc:'Cargador completo para iPhone.', price:9000, cat:'cargadores', image:'img/image74.png', badge:'', featured:false},
+  {id:74, name:'Cargador TC Pro21', desc:'Puerto USB y C.', price:10000, cat:'cargadores', image:'img/image75.png', badge:'', featured:false},
+  {id:75, name:'Cargador TC Ezra 20W (amarillo)', desc:'20W. Puerto C. Cable C a C amarillo incluido.', price:11600, cat:'cargadores', image:'img/image76.png', badge:'', featured:false},
+  {id:76, name:'Cargador TC Ezra 20W (CR)', desc:'20W. Puerto C y USB. Cable USB a C incluido.', price:11200, cat:'cargadores', image:'img/image77.png', badge:'', featured:false},
+  {id:77, name:'Transformador EZRA + Aitech 20W', desc:'1 puerto C de 20W.', price:8000, cat:'cargadores', image:'img/image78.png', badge:'', featured:false},
+  {id:78, name:'Transformador EZRA 2 USB 10W', desc:'2 puertos USB de 10W.', price:5400, cat:'cargadores', image:'img/image79.png', badge:'', featured:false},
+  {id:79, name:'Transformador EZRA C + USB 20W', desc:'Puerto C y USB de 20W.', price:7080, cat:'cargadores', image:'img/image80.png', badge:'', featured:false},
+  {id:80, name:'MagSafe Magnético', desc:'Cargador magnético MagSafe. Salida C.', price:12200, cat:'cargadores', image:'img/image81.png', badge:'', featured:false},
+  {id:81, name:'Cabezal Apple USB-C 20W', desc:'Cabezal Apple USB-C de 20W.', price:8600, cat:'cargadores', image:'img/image82.png', badge:'', featured:false},
+  {id:82, name:'Cargador Portátil Lambo 20000mAh', desc:'Power bank Lambo 20000mAh.', price:15700, cat:'cargadores', image:'img/image83.png', badge:'', featured:false},
+  {id:83, name:'Cargador Portátil Lambo 40000mAh', desc:'Power bank Lambo 40000mAh. Gran capacidad.', price:28300, cat:'cargadores', image:'img/image84.png', badge:'popular', featured:true},
+  {id:84, name:'Power Bank Ezra 5000mAh Magnético', desc:'15W magnético. Color Gris.', price:31487, cat:'cargadores', image:'img/image85.png', badge:'', featured:false},
+  {id:85, name:'Power Bank Ezra 10000mAh 22.5W', desc:'22.5W. Color Blanco.', price:33153, cat:'cargadores', image:'img/image86.png', badge:'', featured:false},
+  {id:86, name:'Cargador Alargue 6 USB', desc:'Rectangular con 6 puertos USB charger 5G.', price:7990, cat:'cargadores', image:'img/image87.png', badge:'', featured:false},
+  // ── CABLES Y ADAPTADORES ──────────────────────────────────
+  {id:87, name:'Cable Tipo C a C Ezra Blanco', desc:'Cable TC a TC. Ezra blanco.', price:6300, cat:'cables', image:'img/image88.png', badge:'', featured:false},
+  {id:88, name:'Cable TC a TC con Visor Ezra', desc:'Cable con visor de carga. Ezra TC a TC.', price:7140, cat:'cables', image:'img/image89.png', badge:'', featured:false},
+  {id:89, name:'Cable TC a iPhone Negro con Visor', desc:'Ezra negro. TC a iPhone con visor.', price:6840, cat:'cables', image:'img/image90.png', badge:'', featured:false},
+  {id:90, name:'Cable USB a Tipo C Ezra', desc:'Cable USB a C de Ezra.', price:6450, cat:'cables', image:'img/image91.png', badge:'', featured:false},
+  {id:91, name:'Cable TC a TC Pro21 Soga', desc:'Cable soga resistente TC a TC de Pro21.', price:5970, cat:'cables', image:'img/image92.png', badge:'', featured:false},
+  {id:92, name:'Cable iPhone 1M USB a Lightning', desc:'Cable iPhone de 1 metro.', price:4900, cat:'cables', image:'img/image93.png', badge:'', featured:false},
+  {id:93, name:'Cable iPhone 2M USB a Lightning', desc:'Cable iPhone de 2 metros.', price:7600, cat:'cables', image:'img/image94.png', badge:'', featured:false},
+  {id:94, name:'Cable V8 Micro USB Gris', desc:'Cable Micro USB V8. Color Gris.', price:6000, cat:'cables', image:'img/image95.png', badge:'', featured:false},
+  {id:95, name:'Cable 3 en 1 Ezra', desc:'USB-C + V8 + Lightning. Ezra.', price:7250, cat:'cables', image:'img/image96.png', badge:'popular', featured:false},
+  {id:96, name:'Cable Auxiliar Lambo Tech', desc:'Cable auxiliar 3.5mm de Lambo Tech.', price:2100, cat:'cables', image:'img/image97.png', badge:'', featured:false},
+  {id:97, name:'Cable Auxiliar Ezra Premium', desc:'Cable auxiliar 3.5mm Ezra.', price:8250, cat:'cables', image:'img/image98.png', badge:'', featured:false},
+  {id:98, name:'Adaptador Tipo C Blanco', desc:'Adaptador Tipo C. Color Blanco.', price:4125, cat:'cables', image:'img/image99.png', badge:'', featured:false},
+  {id:99, name:'Adaptador iPhone Blanco', desc:'Adaptador iPhone. Color Blanco.', price:4050, cat:'cables', image:'img/image100.png', badge:'', featured:false},
+  {id:100,name:'Adaptador Viajero Simple', desc:'Adaptador viajero básico.', price:4160, cat:'cables', image:'img/image101.png', badge:'', featured:false},
+  {id:101,name:'Adaptador Viajero 2 USB + C', desc:'Con 2 puertos USB y 1 puerto C.', price:9280, cat:'cables', image:'img/image102.png', badge:'', featured:false},
+  {id:102,name:'Adaptador Viajero 1 USB', desc:'Con 1 puerto USB.', price:10400, cat:'cables', image:'img/image103.png', badge:'', featured:false},
+  // ── DECO / LUCES ──────────────────────────────────────────
+  {id:103,name:'Luces Rosas Multicolor 4mts', desc:'Guirnalda de rosas con luces multicolor. 4 metros. Con enchufe.', price:6090, cat:'deco', image:'img/image104.png', badge:'', featured:false},
+  {id:104,name:'Luces Gotitas Transparentes Multicolor', desc:'Gotitas transparentes multicolor. 4 metros. Con enchufe.', price:6028, cat:'deco', image:'img/image105.png', badge:'', featured:false},
+  {id:105,name:'Luces Luna y Estrella Cálida 4mts', desc:'Luz cálida forma luna y estrella. 4 metros. Con enchufe.', price:6090, cat:'deco', image:'img/image106.png', badge:'', featured:false},
+  {id:106,name:'Luces Arroz Cálidas 5mts', desc:'Luces de arroz cálidas. 5 metros. Con enchufe.', price:6250, cat:'deco', image:'img/image107.png', badge:'', featured:false},
+  {id:107,name:'Luces Arroz Multicolor 9mts', desc:'Luces de arroz multicolor. 9 metros. Con enchufe.', price:8600, cat:'deco', image:'img/image108.png', badge:'', featured:false},
+  // ── OTROS ─────────────────────────────────────────────────
+  {id:108,name:'Pelota Mundial N5 Premium', desc:'Pelota de fútbol N5 Calidad Premium.', price:29920, cat:'otros', image:'img/image22.png', badge:'', featured:false},
+];
+
+// ─── ESTADO ──────────────────────────────────────────────────
+let cart = [];
+let filterCat = 'all';
+let filterSearch = '';
+let filterSort = 'default';
+
+// ─── HELPERS ─────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const fmtPrice = n => '$' + n.toLocaleString('es-AR');
+const waURL = msg => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+function getPlaceholderIcon(cat) {
+  const icons = { perfumes:'🌸', auriculares:'🎧', parlantes:'🔊', soportes:'📱', gadgets:'💡', cargadores:'⚡', cables:'🔌', deco:'✨', otros:'📦' };
+  return icons[cat] || '📦';
+}
+
+function cardHTML(p, compact = false) {
+  const badgeMap = { popular:'badge-popular', premium:'badge-premium', new:'badge-new' };
+  const badgeLbl = { popular:'Más consultado', premium:'Premium', new:'Nuevo' };
+  const inCart = cart.includes(p.id);
+  const imgContent = p.image
+    ? `<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    : '';
+  return `
+  <div class="card fade-in" data-id="${p.id}">
+    <div class="card-img">
+      ${imgContent}
+      <div class="card-placeholder" ${p.image ? 'style="display:none"' : ''}>
+        <span style="font-size:2.5rem">${getPlaceholderIcon(p.cat)}</span>
+        <span>Sin imagen</span>
+      </div>
+      ${p.badge ? `<span class="card-badge ${badgeMap[p.badge]}">${badgeLbl[p.badge]}</span>` : ''}
+    </div>
+    <div class="card-body">
+      <div class="card-cat">${CATS[p.cat]?.name || p.cat}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="card-price">${fmtPrice(p.price)}</div>
+      <div class="card-actions">
+        <a href="${waURL(`Hola! Quiero consultar por este producto: *${p.name}* — Precio: ${fmtPrice(p.price)} 🙌`)}" target="_blank" class="btn-wa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+          Consultar
+        </a>
+        <button class="btn-add ${inCart ? 'added' : ''}" onclick="toggleCart(${p.id})" title="${inCart ? 'Quitar de consulta' : 'Agregar a consulta'}">${inCart ? '✓' : '+'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ─── RENDER FEATURED ─────────────────────────────────────────
+function renderFeatured() {
+  const featured = PRODUCTS.filter(p => p.featured);
+  $('featuredGrid').innerHTML = featured.map(p => cardHTML(p)).join('');
+  animateVisible();
+}
+
+// ─── RENDER ALL PRODUCTS ──────────────────────────────────────
+function renderProducts() {
+  let list = PRODUCTS.filter(p => {
+    const matchCat = filterCat === 'all' || p.cat === filterCat;
+    const matchSearch = !filterSearch || p.name.toLowerCase().includes(filterSearch) || p.desc.toLowerCase().includes(filterSearch);
+    return matchCat && matchSearch;
+  });
+  if (filterSort === 'price-asc') list.sort((a,b) => a.price - b.price);
+  else if (filterSort === 'price-desc') list.sort((a,b) => b.price - a.price);
+  else if (filterSort === 'name-az') list.sort((a,b) => a.name.localeCompare(b.name));
+
+  $('resultCount').textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
+
+  const wrap = $('allProductsWrap');
+  if (!list.length) {
+    wrap.innerHTML = `<div class="no-results"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><h3>Sin resultados</h3><p>Probá con otro término o limpiá los filtros.</p></div>`;
+    return;
+  }
+
+  if (filterSort !== 'default' || filterSearch || filterCat !== 'all') {
+    wrap.innerHTML = `<div class="products-grid" style="padding:40px 0">${list.map(p => cardHTML(p)).join('')}</div>`;
+  } else {
+    // Group by category
+    const order = ['perfumes','auriculares','parlantes','soportes','gadgets','cargadores','cables','deco','otros'];
+    let html = '';
+    for (const cat of order) {
+      const catList = list.filter(p => p.cat === cat);
+      if (!catList.length) continue;
+      html += `
+      <div class="category-block" id="${cat}">
+        <div class="category-block-header">
+          <div class="category-block-icon">${CATS[cat].icon}</div>
+          <div>
+            <div class="category-block-title">${CATS[cat].name}</div>
+            <div class="category-block-count">${catList.length} producto${catList.length !== 1 ? 's' : ''}</div>
+          </div>
+        </div>
+        <div class="products-grid">${catList.map(p => cardHTML(p)).join('')}</div>
+      </div>`;
+    }
+    wrap.innerHTML = html;
+  }
+  animateVisible();
+}
+
+// ─── CART ─────────────────────────────────────────────────────
+function toggleCart(id) {
+  const idx = cart.indexOf(id);
+  if (idx === -1) cart.push(id); else cart.splice(idx, 1);
+  updateCartUI();
+  renderProducts();
+  renderFeatured();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x !== id);
+  updateCartUI();
+  renderProducts();
+  renderFeatured();
+}
+
+function updateCartUI() {
+  const count = cart.length;
+  $('cartCount').textContent = count;
+  const items = $('cartItems');
+  const sendBtn = $('sendCartBtn');
+
+  if (!count) {
+    items.innerHTML = `<div class="cart-empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.99-1.61L23 6H6"/></svg><p>Tu consulta está vacía</p></div>`;
+    $('cartTotal').textContent = '$0';
+    sendBtn.disabled = true;
+    return;
+  }
+
+  sendBtn.disabled = false;
+  const cartProducts = cart.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+  const total = cartProducts.reduce((s,p) => s + p.price, 0);
+
+  items.innerHTML = cartProducts.map(p => `
+    <div class="cart-item">
+      <div class="cart-item-img">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}" loading="lazy">` : `<span style="font-size:1.4rem">${getPlaceholderIcon(p.cat)}</span>`}
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${p.name}</div>
+        <div class="cart-item-price">${fmtPrice(p.price)}</div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${p.id})">✕</button>
+    </div>
+  `).join('');
+
+  $('cartTotal').textContent = fmtPrice(total);
+}
+
+function openCart() {
+  $('cartDrawer').classList.add('open');
+  $('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  $('cartDrawer').classList.remove('open');
+  $('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function sendCartWhatsApp() {
+  const cartProducts = cart.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+  const total = cartProducts.reduce((s,p) => s + p.price, 0);
+  const lines = cartProducts.map(p => `• ${p.name} — ${fmtPrice(p.price)}`).join('\n');
+  const msg = `Hola! Quiero consultar disponibilidad de estos productos:\n\n${lines}\n\n💰 *Total estimado: ${fmtPrice(total)}*\n\n¿Podés confirmarme stock y forma de envío? ¡Gracias!`;
+  window.open(waURL(msg), '_blank');
+}
+
+// ─── ANIMATIONS ──────────────────────────────────────────────
+function animateVisible() {
+  const els = document.querySelectorAll('.fade-in:not(.visible)');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e,i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 40);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => observer.observe(el));
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+function init() {
+  // Apply brand config
+  document.title = `${BRAND_NAME} — Catálogo 2026`;
+  const brandLogoSVG = `<svg width="26" height="26" viewBox="0 0 100 100" style="flex-shrink:0;border-radius:50%"><defs><linearGradient id="ngr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6D28D9"/><stop offset="100%" stop-color="#DB2777"/></linearGradient></defs><circle cx="50" cy="50" r="50" fill="url(#ngr)"/><path d="M18 52 C18 25 82 25 82 52" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="10" y="48" width="16" height="22" rx="8" fill="white"/><rect x="74" y="48" width="16" height="22" rx="8" fill="white"/></svg>`;
+  ['navBrand','footerBrand'].forEach(id => {
+    const el = $(id);
+    if (el) {
+      const parts = BRAND_NAME.split(' ');
+      const text = parts.length > 1
+        ? parts.slice(0,-1).join(' ') + ' <span>' + parts[parts.length-1] + '</span>'
+        : `<span>${BRAND_NAME}</span>`;
+      el.innerHTML = brandLogoSVG + text;
+    }
+  });
+
+  const waGeneral = waURL('Hola! Me gustaría consultar sobre sus productos 🙌');
+  ['navWA','fabWA','contactWA'].forEach(id => {
+    const el = $(id);
+    if (el) { el.href = waGeneral; el.target = '_blank'; el.rel = 'noopener'; }
+  });
+  document.querySelectorAll('.nav-wa-hero').forEach(el => {
+    el.href = waGeneral; el.target = '_blank'; el.rel = 'noopener';
+  });
+
+  const igURL = `https://instagram.com/${INSTAGRAM.replace('@','')}`;
+  ['instagram','instagram2'].forEach(id => { const el=$(id); if(el) el.textContent = INSTAGRAM; });
+  ['footerIG'].forEach(id => { const el=$(id); if(el){ el.href=igURL; el.target='_blank'; } });
+  ['footerWA'].forEach(id => { const el=$(id); if(el){ el.href=waGeneral; el.target='_blank'; } });
+  ['ubicacion','ubicacion2'].forEach(id => { const el=$(id); if(el) el.textContent = UBICACION; });
+  ['horarios','horarios2'].forEach(id => { const el=$(id); if(el) el.textContent = HORARIOS; });
+
+  renderFeatured();
+  renderProducts();
+  updateCartUI();
+
+  // Events
+  $('searchInput').addEventListener('input', e => {
+    filterSearch = e.target.value.toLowerCase().trim();
+    renderProducts();
+  });
+  $('catFilter').addEventListener('change', e => {
+    filterCat = e.target.value;
+    renderProducts();
+  });
+  $('sortOrder').addEventListener('change', e => {
+    filterSort = e.target.value;
+    renderProducts();
+  });
+  $('clearBtn').addEventListener('click', () => {
+    filterSearch = ''; filterCat = 'all'; filterSort = 'default';
+    $('searchInput').value = '';
+    $('catFilter').value = 'all';
+    $('sortOrder').value = 'default';
+    renderProducts();
+  });
+  $('fabCart').addEventListener('click', openCart);
+  $('cartClose').addEventListener('click', closeCart);
+  $('cartOverlay').addEventListener('click', closeCart);
+  $('sendCartBtn').addEventListener('click', sendCartWhatsApp);
+  $('fabUp').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('scroll', () => {
+    const up = $('fabUp');
+    if (window.scrollY > 400) up.style.display = 'flex';
+    else up.style.display = 'none';
+  });
+
+  animateVisible();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+
