@@ -6,6 +6,8 @@
 <title>CutiLuminar — Catálogo 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/config.js"></script>
 <style>
 :root {
   --black: #111827;
@@ -108,25 +110,23 @@ select.filter-select:focus{border-color:var(--gold);background:#fff}
 .card-placeholder svg{opacity:0.35}
 .card-placeholder span{font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;opacity:0.6}
 .card-badge{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:50px;font-size:0.68rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;z-index:1}
-.badge-popular{background:#111;color:#fff}
-.badge-premium{background:var(--gold);color:#fff}
-.badge-new{background:#16A34A;color:#fff}
+.badge-nuevo{background:#16A34A;color:#fff}
+.badge-oferta{background:#DB2777;color:#fff}
+.badge-mas_vendido{background:#111;color:#fff}
+.badge-sin_stock{background:#64748B;color:#fff}
 .card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:8px}
 .card-cat{font-size:0.72rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.8px}
 .card-name{font-size:0.92rem;font-weight:700;line-height:1.3;color:var(--black)}
 .card-desc{font-size:0.78rem;color:var(--muted);line-height:1.5;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-price-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .card-price{font-size:1.2rem;font-weight:800;color:var(--black);letter-spacing:-0.5px}
+.card-old-price{font-size:0.85rem;color:var(--muted);text-decoration:line-through}
 .card-actions{display:flex;gap:8px;margin-top:4px}
 .btn-wa{flex:1;background:var(--black);color:#fff;padding:10px 12px;border-radius:var(--radius-sm);font-size:0.8rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--transition)}
 .btn-wa:hover{background:#25D366;transform:none}
 .btn-add{background:var(--gold-subtle);color:var(--gold);border:1.5px solid rgba(109,40,217,0.25);width:42px;height:42px;border-radius:var(--radius-sm);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;font-weight:700}
 .btn-add:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
 .btn-add.added{background:var(--gold);color:#fff;border-color:var(--gold)}
-@keyframes addPop{0%{transform:scale(1)}45%{transform:scale(1.3)}100%{transform:scale(1)}}
-.btn-add.pop{animation:addPop 0.3s cubic-bezier(0.4,0,0.2,1)}
-.fab-cart{transition:var(--transition), transform 0.25s cubic-bezier(0.4,0,0.2,1)}
-.fab-cart.bump{transform:scale(1.12)}
-.fab-cart-count{transition:transform 0.25s cubic-bezier(0.4,0,0.2,1)}
 
 /* ─── CATEGORY NAV ────────────────────────────────────────── */
 .cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
@@ -263,7 +263,6 @@ footer{background:#0A0A0B;padding:28px 20px;text-align:center}
       <a href="#parlantes">Parlantes</a>
       <a href="#cargadores">Cargadores</a>
       <a href="#cables">Cables</a>
-      <a href="#vapes">Vapes</a>
       <a href="#contacto">Contacto</a>
     </div>
     <a href="#" class="nav-wa" id="navWA">
@@ -323,7 +322,6 @@ footer{background:#0A0A0B;padding:28px 20px;text-align:center}
         <option value="gadgets">Gadgets y tecnología</option>
         <option value="cargadores">Cargadores y power banks</option>
         <option value="cables">Cables y adaptadores</option>
-        <option value="vapes">Vapes</option>
         <option value="deco">Deco / luces</option>
         <option value="otros">Otros</option>
       </select>
@@ -457,203 +455,65 @@ const INSTAGRAM = '@cutiluminar_ok'; // ← Cambiá tu Instagram
 const UBICACION = 'Argentina';      // ← Cambiá tu ubicación
 const HORARIOS = 'Lun–Vie 9:00–18:00 · Sáb 10:00–14:00'; // ← Cambiá horarios
 
-// ─── CATEGORÍAS ──────────────────────────────────────────────
-const CATS = {
-  perfumes:    { name: 'Perfumes', icon: '🌸' },
-  auriculares: { name: 'Auriculares', icon: '🎧' },
-  parlantes:   { name: 'Parlantes y audio', icon: '🔊' },
-  soportes:    { name: 'Soportes', icon: '📱' },
-  gadgets:     { name: 'Gadgets y tecnología', icon: '💡' },
-  cargadores:  { name: 'Cargadores y power banks', icon: '⚡' },
-  cables:      { name: 'Cables y adaptadores', icon: '🔌' },
-  vapes:       { name: 'Vapes', icon: '💨' },
-  deco:        { name: 'Deco / luces', icon: '✨' },
-  otros:       { name: 'Otros', icon: '📦' },
+// ─── SUPABASE ────────────────────────────────────────────────
+// Categorías y productos se cargan en vivo desde Supabase (ver panel de
+// administración en admin.html). Este archivo ya no contiene datos fijos.
+const { createClient } = supabase;
+const sbClient = createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.publishableKey);
+
+const ICON_FALLBACKS = {
+  perfumes:'🌸', auriculares:'🎧', parlantes:'🔊', soportes:'📱', gadgets:'💡',
+  cargadores:'⚡', cables:'🔌', deco:'✨', otros:'📦',
 };
+const BADGE_LABELS = { nuevo:'Nuevo', oferta:'Oferta', mas_vendido:'Más vendido', sin_stock:'Sin stock' };
 
-// ─── PRODUCTOS ───────────────────────────────────────────────
-// Para agregar/editar productos: modificar este array.
-// Cada producto: { id, name, desc, price, cat, image, badge, featured }
-// image: ruta a imagen local (ej: 'img/producto.jpg') o URL. Dejar '' para placeholder.
-// badge: 'popular' | 'premium' | 'new' | ''
-// featured: true/false
+let CATS = {};       // slug -> { name, icon }
+let CAT_ORDER = [];  // slugs en order_index
+let PRODUCTS = [];   // { id, name, desc, price, oldPrice, cat, image, badge, featured, stock }
 
-const PRODUCTS = [
-  // ── PERFUMES ──────────────────────────────────────────────
-  {id:1,  name:'LATTAFA ECLAIRE 100ML FEM', desc:'Perfume floral frutal gourmand para mujeres, conocido por su aroma dulce, cremoso y elegante.', price:55000, cat:'perfumes', image:'img/image1.png', badge:'popular', featured:true},
-  {id:2,  name:'LATTAFA KHAMRAH EDP 100ML UNISEX', desc:'Mundialmente conocido por ser una fragancia cálida, dulce y avainillada, con una estela sumamente duradera y un empaque premium.', price:43040, cat:'perfumes', image:'img/image2.png', badge:'popular', featured:true},
-  {id:3,  name:'LATTAFA KHAMRAH DUKHAN EDP 100ML', desc:'Perfume oriental amaderado y especiado, inspirado en el antiguo ritual árabe de quemar perfume.', price:43040, cat:'perfumes', image:'img/image3.png', badge:'', featured:false},
-  {id:4,  name:'LATTAFA KHAMRAH QAHWA 100ML', desc:'Conocido por su alta duración, es una versión más exótica y adictiva del Khamrah original.', price:43040, cat:'perfumes', image:'img/image4.png', badge:'', featured:false},
-  {id:5,  name:'LATTAFA BADEE HONOR AND GLORY 100ML', desc:'Aroma seductor, cálido y dulce, destacando en cualquier ocasión.', price:45000, cat:'perfumes', image:'img/image5.png', badge:'', featured:false},
-  {id:6,  name:'LATTAFA BADEE AL OUD FOR GLORY 100ML', desc:'Perfume oscuro, opulento y lujoso. Alternativa accesible a Oud for Greatness de Initio.', price:42000, cat:'perfumes', image:'img/image6.png', badge:'', featured:false},
-  {id:7,  name:'ARMAF ODYSSEY MANDARIN SKY EDP 100ML', desc:'Fragancia masculina vibrante y moderna (familia olfativa Ámbar Amaderada), muy elogiada por su excelente relación calidad-precio y su estilo tipo gourmand.', price:59500, cat:'perfumes', image:'img/image7.png', badge:'premium', featured:true},
-  {id:8,  name:'LATTAFA EMAAN U EDP 100ML', desc:'Perfume femenino, alternativa inspirada en My Way de Giorgio Armani. Flores blancas, cítricos y fondo cálido.', price:53760, cat:'perfumes', image:'img/image8.png', badge:'', featured:false},
-  {id:9,  name:'ARMAF ODYSSEY HOMME 100ML', desc:'Oriental especiada y dulce para hombres. Alternativa popular a Tom Ford Noir Extreme.', price:44800, cat:'perfumes', image:'img/image9.png', badge:'', featured:false},
-  {id:10, name:'ARMAF ODYSSEY HOMME WHITE 100ML', desc:'Similar aromáticamente a Emporio Armani Stronger With You. Excelente relación calidad-precio.', price:45280, cat:'perfumes', image:'img/image10.png', badge:'', featured:false},
-  {id:11, name:'ARMAF ODYSSEY SPECTRA 100ML', desc:'Fragancia Oriental Especiada. Aroma dulce, envolvente y ligeramente amaderado.', price:42880, cat:'perfumes', image:'img/image11.png', badge:'', featured:false},
-  {id:12, name:'NAUTICA VOYAGE EDT 100ML', desc:'Fragancia masculina amaderada acuática. Fresca, limpia y muy versátil.', price:36800, cat:'perfumes', image:'img/image12.png', badge:'', featured:false},
-  {id:13, name:'VENENO BIANCO FRENCH AVENUE EDP 100ML', desc:'Fragancia unisex floral ambarina. Aroma tropical, cremoso y adictivo.', price:76800, cat:'perfumes', image:'img/image13.png', badge:'premium', featured:false},
-  {id:14, name:'ART OF UNIVERSE LATTAFA EDP 100ML', desc:'Cítrica, fresca y amaderada. Alternativa económica al exclusivo Blue Talisman de Ex Nihilo.', price:65600, cat:'perfumes', image:'img/image14.png', badge:'', featured:false},
-  {id:15, name:'LIQUID BRUN FRENCH AVENUE EDP 100ML', desc:'Árabe de familia Amaderada Oriental Gourmand. Aroma cálido, especiado y dulce.', price:86400, cat:'perfumes', image:'img/image15.png', badge:'premium', featured:true},
-  {id:16, name:'WORLD CUP VIP ZAKAT EDP 80ML AZUL', desc:'Unisex Cítrica Aromática. Fresca, versátil y elegante. Rinde homenaje a la temporada del Mundial.', price:155200, cat:'perfumes', image:'img/image16.png', badge:'premium', featured:false},
-  {id:17, name:'SPECTRE GHOST EDP FRENCH AVENUE 80ML', desc:'Amaderada aromática, inspirado en el famoso perfume nicho Ani de Nishane.', price:76960, cat:'perfumes', image:'img/image17.png', badge:'', featured:false},
-  {id:18, name:'RASASI HAWAS ELIXIR 100ML', desc:'Oriental avainillada. Inicio fresco con base profunda y seductora. Gran duración y estela.', price:57600, cat:'perfumes', image:'img/image18.png', badge:'', featured:false},
-  {id:19, name:'RASASI HAWAS MALIBU 100ML', desc:'Aromática frutal ambarada. Vibra tropical y veraniega. Comparada con Jean Paul Gaultier Le Beau Le Parfum.', price:75200, cat:'perfumes', image:'img/image19.png', badge:'', featured:false},
-  {id:20, name:'RASASI HAWAS ECLAT 100ML', desc:'Floral oriental. Aroma luminoso, cremoso y ultra-femenino. Notas afrutadas, florales y cálidas.', price:65600, cat:'perfumes', image:'img/image20.png', badge:'', featured:false},
-  {id:21, name:'PARIS CORNER MARSHMALLOW BLUSH EDP', desc:'Gourmand dulce, frutal y cremoso. Fresa, frambuesa, flores y malvavisco. Estela reconfortante e irresistible.', price:64000, cat:'perfumes', image:'img/image21.png', badge:'', featured:false},
-  // ── AURICULARES ───────────────────────────────────────────
-  {id:22, name:'Auricular Ezra BT Pastel', desc:'Bluetooth pastel. Disponible en Rosa y Celeste.', price:22514, cat:'auriculares', image:'img/image23.png', badge:'', featured:false},
-  {id:23, name:'Auricular Ezra Zero Noise TWS139', desc:'True Wireless. Color Celeste.', price:27500, cat:'auriculares', image:'img/image24.png', badge:'new', featured:false},
-  {id:24, name:'Auricular Ezra Hifi 062', desc:'Alta fidelidad. Disponible en Negro y Beige.', price:22600, cat:'auriculares', image:'img/image25.png', badge:'', featured:false},
-  {id:25, name:'Auricular AirPods 2da Generación', desc:'Diseño AirPods. Color Blanco.', price:22000, cat:'auriculares', image:'img/image26.jpeg', badge:'popular', featured:false},
-  {id:26, name:'Auricular A6S Económicos', desc:'TWS compactos. Color Negro.', price:6700, cat:'auriculares', image:'img/image27.png', badge:'', featured:false},
-  {id:27, name:'Auricular OWS Deportivos', desc:'Open Wear. Colores sujeto a stock.', price:10000, cat:'auriculares', image:'img/image28.png', badge:'', featured:false},
-  {id:28, name:'Auricular Samsung Cable USB-C', desc:'Con cable USB-C. Para Samsung y dispositivos compatibles.', price:7500, cat:'auriculares', image:'img/image29.png', badge:'', featured:false},
-  {id:29, name:'Auricular Super Bass Cable', desc:'Conexión auxiliar 3.5mm. Color Negro.', price:1900, cat:'auriculares', image:'img/image30.png', badge:'', featured:false},
-  {id:30, name:'Auricular Ezra Vincha BT Pure Bass', desc:'Vincha Bluetooth. Colores sujeto a stock.', price:26350, cat:'auriculares', image:'img/image31.png', badge:'', featured:false},
-  {id:31, name:'Auricular Legatus Vincha', desc:'Vincha Bluetooth con Luces LED.', price:15810, cat:'auriculares', image:'img/image32.png', badge:'', featured:false},
-  {id:32, name:'Auricular JBL Vincha', desc:'Vincha JBL. Color Verde.', price:30240, cat:'auriculares', image:'img/image33.png', badge:'popular', featured:false},
-  // ── PARLANTES Y AUDIO ──────────────────────────────────────
-  {id:33, name:'Mini Parlante BT Ezra', desc:'Negro con luces LED. Bluetooth compacto.', price:18010, cat:'parlantes', image:'img/image34.png', badge:'', featured:false},
-  {id:34, name:'Parlante con 2 Micrófonos Mini', desc:'Incluye 2 micrófonos. Color Celeste.', price:16800, cat:'parlantes', image:'img/image35.png', badge:'', featured:false},
-  {id:35, name:'Parlante JBL Flip 7', desc:'JBL original. Color Rojo. Waterproof, sonido premium.', price:43860, cat:'parlantes', image:'img/image36.png', badge:'popular', featured:true},
-  {id:36, name:'Parlante BT Led', desc:'Bluetooth con LEDs. Color Negro / Gris.', price:32256, cat:'parlantes', image:'img/image37.png', badge:'', featured:false},
-  {id:37, name:'Micrófono Karaoke', desc:'Bluetooth, juguete infantil.', price:12000, cat:'parlantes', image:'img/image38.png', badge:'', featured:false},
-  {id:38, name:'Micrófono Inalámbrico Royalcell', desc:'Profesional inalámbrico.', price:51300, cat:'parlantes', image:'img/image39.png', badge:'', featured:false},
-  {id:39, name:'Micrófono Corbatero x1', desc:'1 micrófono corbatero.', price:9160, cat:'parlantes', image:'img/image40.png', badge:'', featured:false},
-  {id:40, name:'Micrófono Corbatero x2', desc:'Pack de 2 micrófonos corbateros.', price:12000, cat:'parlantes', image:'img/image41.png', badge:'', featured:false},
-  // ── SOPORTES ──────────────────────────────────────────────
-  {id:41, name:'Soporte Extensible Sopapa N79', desc:'Para vidrio y tablero. Con sopapa extensible.', price:12075, cat:'soportes', image:'img/image42.png', badge:'', featured:false},
-  {id:42, name:'Soporte Rejilla Ajustable Fetuz', desc:'Para rejilla de ventilación. Ajustable.', price:8160, cat:'soportes', image:'img/image43.png', badge:'', featured:false},
-  {id:43, name:'Soporte Rejilla Magnético Ezra', desc:'Aro magnético para rejilla.', price:15300, cat:'soportes', image:'img/image44.png', badge:'', featured:false},
-  {id:44, name:'Soporte Rejilla Magnético Rectangular', desc:'Imán rectangular para rejilla.', price:7840, cat:'soportes', image:'img/image45.png', badge:'', featured:false},
-  {id:45, name:'Ezra Rejilla Rectángulo', desc:'Soporte de rejilla rectangular.', price:10600, cat:'soportes', image:'img/image46.png', badge:'', featured:false},
-  {id:46, name:'Soporte Magnético 2mt', desc:'Redondo pequeño con imán.', price:9800, cat:'soportes', image:'img/image47.png', badge:'', featured:false},
-  {id:47, name:'Ezra EZ-U03 Rejilla', desc:'Soporte pequeño y ajustable. Color Negro.', price:9000, cat:'soportes', image:'img/image48.png', badge:'', featured:false},
-  {id:48, name:'Ezra EZ-U01 Transparente', desc:'Estético y transparente. Para rejilla.', price:9980, cat:'soportes', image:'img/image49.png', badge:'', featured:false},
-  {id:49, name:'Estuche Bici con Soporte', desc:'Estuche antigolpes y antilluvia de goma.', price:14340, cat:'soportes', image:'img/image50.png', badge:'', featured:false},
-  {id:50, name:'Soporte Flexible de Mesa', desc:'Flexible para mesa. Colores sujeto a stock.', price:8400, cat:'soportes', image:'img/image51.png', badge:'', featured:false},
-  {id:51, name:'Soporte de Mesa Magnético Lambo', desc:'Magnético para mesa. Lambo Tech.', price:11000, cat:'soportes', image:'img/image52.png', badge:'', featured:false},
-  // ── GADGETS Y TECNOLOGÍA ──────────────────────────────────
-  {id:52, name:'Cámara Infantil con Impresora', desc:'Cámara de fotos para niños con impresora incluida. Verde y Violeta.', price:41440, cat:'gadgets', image:'img/image53.png', badge:'new', featured:false},
-  {id:53, name:'Nebulizador Portátil', desc:'Portable. Cable de carga incluido.', price:20000, cat:'gadgets', image:'img/image54.png', badge:'', featured:false},
-  {id:54, name:'Dron Led', desc:'Dron con luces LED. Excelente para regalos.', price:56000, cat:'gadgets', image:'img/image55.png', badge:'new', featured:true},
-  {id:55, name:'Linterna Lambo', desc:'Distintos niveles de intensidad. Incluye cargador portátil.', price:17600, cat:'gadgets', image:'img/image56.png', badge:'', featured:false},
-  {id:56, name:'Mouse Inalámbrico JWAP03', desc:'Mouse inalámbrico. Color Gris.', price:8300, cat:'gadgets', image:'img/image57.png', badge:'', featured:false},
-  {id:57, name:'Control Game Pad 2.4G Wireless', desc:'Gamepad inalámbrico completo. Sin pilas incluidas.', price:39000, cat:'gadgets', image:'img/image58.png', badge:'', featured:false},
-  {id:58, name:'Reloj Smartwatch Ezra', desc:'Smartwatch Ezra Negro. Pantalla a color.', price:56100, cat:'gadgets', image:'img/image59.png', badge:'popular', featured:true},
-  {id:59, name:'Neon BT Rítmico RGB', desc:'5mts de tubo NEON Bluetooth con control remoto.', price:32480, cat:'gadgets', image:'img/image60.png', badge:'new', featured:false},
-  {id:60, name:'Tira LED 5mt 5050 RGB', desc:'Conexión USB con control Bluetooth.', price:13200, cat:'gadgets', image:'img/image61.png', badge:'', featured:false},
-  {id:61, name:'Trípode con LED Lambo', desc:'Trípode con iluminación LED incorporada.', price:8400, cat:'gadgets', image:'img/image62.png', badge:'', featured:false},
-  {id:62, name:'Pizarra Digital Infantil', desc:'Juguete infantil. Diseños Minnie / Barbie. Rosas.', price:6517, cat:'gadgets', image:'img/image63.png', badge:'', featured:false},
-  {id:63, name:'Astronauta Parlante Proyector', desc:'Proyecta galaxias y estrellas. Bluetooth. Con control y base. Sin pilas.', price:43800, cat:'gadgets', image:'img/image64.png', badge:'popular', featured:true},
-  {id:64, name:'Pava Eléctrica Xades Eco Smart', desc:'Pava eléctrica Eco Smart de Xades.', price:30460, cat:'gadgets', image:'img/image65.png', badge:'', featured:false},
-  {id:65, name:'Cámara Deportiva GoPro', desc:'Calidad de grabación 1080p HD. Completa.', price:31900, cat:'gadgets', image:'img/image66.png', badge:'', featured:false},
-  {id:66, name:'Cámara Foco de Seguridad', desc:'Cámara de seguridad tipo foco.', price:31680, cat:'gadgets', image:'img/image67.png', badge:'', featured:false},
-  {id:67, name:'Cámara Lambo IP', desc:'Cámara de seguridad IP Lambo.', price:39760, cat:'gadgets', image:'img/image68.png', badge:'', featured:false},
-  {id:68, name:'Cámara Masuya de Seguridad', desc:'Cámara de seguridad Masuya.', price:40560, cat:'gadgets', image:'img/image69.png', badge:'', featured:false},
-  // ── CARGADORES Y POWER BANKS ──────────────────────────────
-  {id:69, name:'Cargador Auto Samsung', desc:'Puerto C + Cable C incluido.', price:9400, cat:'cargadores', image:'img/image70.png', badge:'', featured:false},
-  {id:70, name:'Cargador Auto Malibu', desc:'Cable Micro USB incluido.', price:7900, cat:'cargadores', image:'img/image71.png', badge:'', featured:false},
-  {id:71, name:'Cabezal Auto Pro21', desc:'Puertos C y USB.', price:5200, cat:'cargadores', image:'img/image72.png', badge:'', featured:false},
-  {id:72, name:'Cabezal Auto Treqa', desc:'Puertos C y USB.', price:8300, cat:'cargadores', image:'img/image73.png', badge:'', featured:false},
-  {id:73, name:'Cargador iPhone Completo', desc:'Cargador completo para iPhone.', price:9000, cat:'cargadores', image:'img/image74.png', badge:'', featured:false},
-  {id:74, name:'Cargador TC Pro21', desc:'Puerto USB y C.', price:10000, cat:'cargadores', image:'img/image75.png', badge:'', featured:false},
-  {id:75, name:'Cargador TC Ezra 20W (amarillo)', desc:'20W. Puerto C. Cable C a C amarillo incluido.', price:14500, cat:'cargadores', image:'img/image76.png', badge:'', featured:false},
-  {id:76, name:'Cargador TC Ezra 20W (CR)', desc:'20W. Puerto C y USB. Cable USB a C incluido.', price:14500, cat:'cargadores', image:'img/image77.png', badge:'', featured:false},
-  {id:77, name:'Transformador EZRA + Aitech 20W', desc:'1 puerto C de 20W.', price:9500, cat:'cargadores', image:'img/image78.png', badge:'', featured:false},
-  {id:78, name:'Transformador EZRA 2 USB 10W', desc:'2 puertos USB de 10W.', price:7500, cat:'cargadores', image:'img/image79.png', badge:'', featured:false},
-  {id:79, name:'Transformador EZRA C + USB 20W', desc:'Puerto C y USB de 20W.', price:9000, cat:'cargadores', image:'img/image80.png', badge:'', featured:false},
-  {id:80, name:'MagSafe Magnético', desc:'Cargador magnético MagSafe. Salida C.', price:12200, cat:'cargadores', image:'img/image81.png', badge:'', featured:false},
-  {id:81, name:'Cabezal Apple USB-C 20W', desc:'Cabezal Apple USB-C de 20W.', price:8600, cat:'cargadores', image:'img/image82.png', badge:'', featured:false},
-  {id:82, name:'Cargador Portátil Lambo 20000mAh', desc:'Power bank Lambo 20000mAh.', price:15700, cat:'cargadores', image:'img/image83.png', badge:'', featured:false},
-  {id:83, name:'Cargador Portátil Lambo 40000mAh', desc:'Power bank Lambo 40000mAh. Gran capacidad.', price:28300, cat:'cargadores', image:'img/image84.png', badge:'popular', featured:true},
-  {id:84, name:'Power Bank Ezra 5000mAh Magnético', desc:'15W magnético. Color Gris.', price:31487, cat:'cargadores', image:'img/image85.png', badge:'', featured:false},
-  {id:85, name:'Power Bank Ezra 10000mAh 22.5W', desc:'22.5W. Color Blanco.', price:33153, cat:'cargadores', image:'img/image86.png', badge:'', featured:false},
-  {id:86, name:'Cargador Alargue 6 USB', desc:'Rectangular con 6 puertos USB charger 5G.', price:7990, cat:'cargadores', image:'img/image87.png', badge:'', featured:false},
-  // ── CABLES Y ADAPTADORES ──────────────────────────────────
-  {id:87, name:'Cable Tipo C a C Ezra Blanco', desc:'Cable TC a TC. Ezra blanco.', price:6300, cat:'cables', image:'img/image88.png', badge:'', featured:false},
-  {id:88, name:'Cable TC a TC con Visor Ezra', desc:'Cable con visor de carga. Ezra TC a TC.', price:7140, cat:'cables', image:'img/image89.png', badge:'', featured:false},
-  {id:89, name:'Cable TC a iPhone Negro con Visor', desc:'Ezra negro. TC a iPhone con visor.', price:6840, cat:'cables', image:'img/image90.png', badge:'', featured:false},
-  {id:90, name:'Cable USB a Tipo C Ezra', desc:'Cable USB a C de Ezra.', price:6450, cat:'cables', image:'img/image91.png', badge:'', featured:false},
-  {id:91, name:'Cable TC a TC Pro21 Soga', desc:'Cable soga resistente TC a TC de Pro21.', price:5970, cat:'cables', image:'img/image92.png', badge:'', featured:false},
-  {id:92, name:'Cable iPhone 1M USB a Lightning', desc:'Cable iPhone de 1 metro.', price:4900, cat:'cables', image:'img/image93.png', badge:'', featured:false},
-  {id:93, name:'Cable iPhone 2M USB a Lightning', desc:'Cable iPhone de 2 metros.', price:7600, cat:'cables', image:'img/image94.png', badge:'', featured:false},
-  {id:94, name:'Cable V8 Micro USB Gris', desc:'Cable Micro USB V8. Color Gris.', price:6000, cat:'cables', image:'img/image95.png', badge:'', featured:false},
-  {id:95, name:'Cable 3 en 1 Ezra', desc:'USB-C + V8 + Lightning. Ezra.', price:7250, cat:'cables', image:'img/image96.png', badge:'popular', featured:false},
-  {id:96, name:'Cable Auxiliar Lambo Tech', desc:'Cable auxiliar 3.5mm de Lambo Tech.', price:2100, cat:'cables', image:'img/image97.png', badge:'', featured:false},
-  {id:97, name:'Cable Auxiliar Ezra Premium', desc:'Cable auxiliar 3.5mm Ezra.', price:8250, cat:'cables', image:'img/image98.png', badge:'', featured:false},
-  {id:98, name:'Adaptador Tipo C Blanco', desc:'Adaptador Tipo C. Color Blanco.', price:4125, cat:'cables', image:'img/image99.png', badge:'', featured:false},
-  {id:99, name:'Adaptador iPhone Blanco', desc:'Adaptador iPhone. Color Blanco.', price:4050, cat:'cables', image:'img/image100.png', badge:'', featured:false},
-  {id:100,name:'Adaptador Viajero Simple', desc:'Adaptador viajero básico.', price:4160, cat:'cables', image:'img/image101.png', badge:'', featured:false},
-  {id:101,name:'Adaptador Viajero 2 USB + C', desc:'Con 2 puertos USB y 1 puerto C.', price:9280, cat:'cables', image:'img/image102.png', badge:'', featured:false},
-  {id:102,name:'Adaptador Viajero 1 USB', desc:'Con 1 puerto USB.', price:10400, cat:'cables', image:'img/image103.png', badge:'', featured:false},
-  // ── DECO / LUCES ──────────────────────────────────────────
-  {id:103,name:'Luces Rosas Multicolor 4mts', desc:'Guirnalda de rosas con luces multicolor. 4 metros. Con enchufe.', price:6090, cat:'deco', image:'img/image104.png', badge:'', featured:false},
-  {id:104,name:'Luces Gotitas Transparentes Multicolor', desc:'Gotitas transparentes multicolor. 4 metros. Con enchufe.', price:6028, cat:'deco', image:'img/image105.png', badge:'', featured:false},
-  {id:105,name:'Luces Luna y Estrella Cálida 4mts', desc:'Luz cálida forma luna y estrella. 4 metros. Con enchufe.', price:6090, cat:'deco', image:'img/image106.png', badge:'', featured:false},
-  {id:106,name:'Luces Arroz Cálidas 5mts', desc:'Luces de arroz cálidas. 5 metros. Con enchufe.', price:6250, cat:'deco', image:'img/image107.png', badge:'', featured:false},
-  {id:107,name:'Luces Arroz Multicolor 9mts', desc:'Luces de arroz multicolor. 9 metros. Con enchufe.', price:8600, cat:'deco', image:'img/image108.png', badge:'', featured:false},
-  // ── OTROS ─────────────────────────────────────────────────
-  {id:108,name:'Pelota Mundial N5 Premium', desc:'Pelota de fútbol N5 Calidad Premium.', price:29920, cat:'otros', image:'img/image22.png', badge:'', featured:false},
+async function loadCatalog() {
+  const [{ data: cats, error: catErr }, { data: prods, error: prodErr }] = await Promise.all([
+    sbClient.from('categories').select('*').eq('is_active', true).order('order_index', { ascending: true }),
+    sbClient.from('products').select('*, categories(slug,name), product_images(image_url,is_main,order_index)').eq('is_active', true).order('order_index', { ascending: true }),
+  ]);
 
-  // ══════════════════════════════════════════════════════════
-  // ── PRODUCTOS NUEVOS (ingreso de stock) ─────────────────────
-  // ══════════════════════════════════════════════════════════
-  // ── PERFUMES NUEVOS ──────────────────────────────────────
-  {id:109,name:'WORLD CUP VIP ZAKAT EDP 80ML VERDE', desc:'Versión regular de la colección del Mundial. Perfil tropical y exótico.', price:120500, cat:'perfumes', image:'img/image109.jpg', badge:'new', featured:true},
-  {id:110,name:'LATTAFA KHAMRAH WAHA 100ML EDP', desc:'Adapta el famoso ADN de Khamrah hacia una faceta fresca, cítrica y acuática, ideal para primavera o climas templados.', price:115165, cat:'perfumes', image:'img/image110.jpg', badge:'new', featured:true},
-  {id:111,name:'LATTAFA ANA ABIYEDH 60ML EDP', desc:'Fragancia unisex de la colección más popular de Lattafa. Aromas sofisticados, de alta calidad y excelente fijación.', price:29450, cat:'perfumes', image:'img/image111.jpg', badge:'new', featured:false},
-  {id:112,name:'LATTAFA ANA ABIYEDH SCARLET 60ML EDP', desc:'Floral Frutal Gourmand. Frasco elegante con detalles dorados y tapón color vino tinto.', price:29450, cat:'perfumes', image:'img/image112.jpg', badge:'new', featured:false},
-  {id:113,name:'LATTAFA ANA ABIYEDH ROUGE 60ML EDP', desc:'Gran parecido al icónico Baccarat Rouge 540, en una propuesta mucho más accesible, dulce y caramelizada.', price:29450, cat:'perfumes', image:'img/image113.jpg', badge:'new', featured:true},
-  {id:114,name:'LATTAFA ANA ABIYEDH CORAL 60ML EDP', desc:'Propuesta tropical, frutal y vibrante inspirada en Wavechild de Room 1015. Dulce, estilo chicle de sandía.', price:29450, cat:'perfumes', image:'img/image114.jpg', badge:'new', featured:false},
-  {id:115,name:'LATTAFA TERIAQ EDP 100ML', desc:'Oriental gourmand unisex. Creación original del célebre perfumista francés Quentin Bisch, no un clon.', price:46190, cat:'perfumes', image:'img/image115.jpg', badge:'new', featured:true},
-  {id:116,name:'LATTAFA AL NOBLE AMEER 100ML EDP', desc:'Oriental amaderada y especiada. Gran parecido al exclusivo Rosendo Mateu Nº 5.', price:39000, cat:'perfumes', image:'img/image116.jpg', badge:'new', featured:false},
-  {id:117,name:'LATTAFA AL NOBLE WAZEER 100ML EDP', desc:'Opción unisex y económica dentro de la perfumería de nicho del Medio Oriente.', price:41000, cat:'perfumes', image:'img/image117.jpg', badge:'new', featured:false},
-  {id:118,name:'LATTAFA AL NOBLE SAFEER 100ML EDP', desc:'Oriental amaderada. Aroma verde, herbal y cítrico. Botella verde gamuza con tapón cabeza de ciervo.', price:41000, cat:'perfumes', image:'img/image118.jpg', badge:'new', featured:false},
-  {id:119,name:'LATTAFA FIRE ON ICE U 100ML EDP', desc:'Frasco inspirado en un vaso de whisky con hielo. Compleja mezcla de calidez y frescura.', price:31000, cat:'perfumes', image:'img/image119.jpg', badge:'new', featured:false},
-  // ── AURICULARES NUEVOS ───────────────────────────────────
-  {id:120,name:'Auricular Ezra NO EZ071', desc:'Diseño cómodo especial para dormir. Color Blanco.', price:36008, cat:'auriculares', image:'img/image120.jpg', badge:'new', featured:false},
-  {id:121,name:'Auricular Ezra TWS67', desc:'Bluetooth con estuche de carga. Negros / Blancos.', price:17612, cat:'auriculares', image:'img/image121.jpg', badge:'new', featured:false},
-  {id:122,name:'Auricular Ezra TWs53', desc:'Bluetooth con funda protectora incluida. Color Blanco.', price:23800, cat:'auriculares', image:'img/image122.jpg', badge:'new', featured:false},
-  {id:123,name:'Auricular Ezra TWS149', desc:'Con imán deportivo para mayor sujeción. Color Negro.', price:32032, cat:'auriculares', image:'img/image123.jpg', badge:'new', featured:false},
-  {id:124,name:'Auricular E6S Económicos', desc:'True Wireless básicos. Color Negro.', price:7300, cat:'auriculares', image:'img/image124.jpg', badge:'new', featured:false},
-  {id:125,name:'Auricular Ezra Cable Tipo C', desc:'Auricular con cable, conector Tipo C.', price:5600, cat:'auriculares', image:'img/image125.jpg', badge:'new', featured:false},
-  {id:126,name:'Auricular Ezra Cable Auxiliar', desc:'Auricular con cable, conector auxiliar 3.5mm.', price:4400, cat:'auriculares', image:'img/image126.jpg', badge:'new', featured:false},
-  {id:127,name:'Auricular Ezra Vincha BT Pure Bass', desc:'Vincha Bluetooth con cancelación de sonido. Azul / Rosa.', price:49500, cat:'auriculares', image:'img/image127.jpg', badge:'new', featured:true},
-  // ── PARLANTES Y MICRÓFONOS NUEVOS ────────────────────────
-  {id:128,name:'Parlante con 2 Micrófonos Mini', desc:'Incluye 2 micrófonos. Color Celeste.', price:16800, cat:'parlantes', image:'img/image128.jpg', badge:'new', featured:false},
-  {id:129,name:'Parlante Ezra NL90', desc:'Portátil tipo boombox con iluminación LED RGB. Color Negro.', price:35190, cat:'parlantes', image:'img/image129.jpg', badge:'new', featured:false},
-  {id:130,name:'Parlante Ezra Led NL69', desc:'Con luces LED RGB. Color Negro.', price:42840, cat:'parlantes', image:'img/image130.jpg', badge:'new', featured:false},
-  {id:131,name:'Micrófono Corbatero Lambo Tech F9', desc:'Pack x2 micrófonos inalámbricos.', price:22360, cat:'parlantes', image:'img/image131.jpg', badge:'new', featured:false},
-  {id:132,name:'Micrófono Corbatero Lambo Peluche F15', desc:'Con cobertor peludo antiviento.', price:22360, cat:'parlantes', image:'img/image132.jpg', badge:'new', featured:false},
-  // ── SOPORTES NUEVOS ───────────────────────────────────────
-  {id:133,name:'Soporte Estuche Bici / Moto', desc:'Estuche plástico waterproof con soporte para manubrio.', price:8700, cat:'soportes', image:'img/image133.jpg', badge:'new', featured:false},
-  {id:134,name:'Soporte Magnético Ventosa Beige', desc:'Con soporte, giro 360°. Color Beige.', price:7200, cat:'soportes', image:'img/image134.jpg', badge:'new', featured:false},
-  {id:135,name:'Soporte Magnético Ventosa Lila', desc:'Con sujetador, giro 360°. Color Lila.', price:7200, cat:'soportes', image:'img/image135.jpg', badge:'new', featured:false},
-  // ── GADGETS NUEVOS ────────────────────────────────────────
-  {id:136,name:'Linterna Lambo P50', desc:'Led recargable, distintos niveles de iluminación. Variedad de tamaños de luz.', price:16300, cat:'gadgets', image:'img/image136.jpg', badge:'new', featured:false},
-  {id:137,name:'Walkie Talkie Baofeng', desc:'Profesionales. Pack x2.', price:49400, cat:'gadgets', image:'img/image137.jpg', badge:'new', featured:false},
-  // ── CARGADORES NUEVOS ─────────────────────────────────────
-  {id:138,name:'Cargador + Soporte Ezra 4en1', desc:'15W. Carga celular + reloj + auriculares al mismo tiempo.', price:49000, cat:'cargadores', image:'img/image138.jpg', badge:'new', featured:false},
-  {id:139,name:'Cargador iPhone Ezra 20W', desc:'Puerto C USB + cable USB a Lightning.', price:11600, cat:'cargadores', image:'img/image139.jpg', badge:'new', featured:false},
-  {id:140,name:'Cargador LDNIO 20W', desc:'Puerto C USB + cable C a C.', price:13900, cat:'cargadores', image:'img/image140.jpg', badge:'new', featured:false},
-  // ── VAPES NUEVOS ──────────────────────────────────────────
-  {id:141,name:'Vape Supreme 18K Puff', desc:'Sabor Strawberry Banana.', price:20000, cat:'vapes', image:'img/image141.jpg', badge:'new', featured:false},
-  {id:142,name:'Vape ElfBar BC 15K Puff', desc:'Sabor Kiwi Passion Fruit Guava.', price:20000, cat:'vapes', image:'img/image142.jpg', badge:'new', featured:false},
-  {id:143,name:'Vape ElfBar BC 15K Puff', desc:'Sabor Sour Apple Ice.', price:20000, cat:'vapes', image:'img/image143.jpg', badge:'new', featured:false},
-  {id:144,name:'Vape ElfBar TE 30K Puff', desc:'Sabor Strawberry Ice.', price:27000, cat:'vapes', image:'img/image144.jpg', badge:'new', featured:false},
-  {id:145,name:'Vape ElfBar TE 30K Puff', desc:'Sabor Bubbaloo Grape.', price:27000, cat:'vapes', image:'img/image145.jpg', badge:'new', featured:false},
-  {id:146,name:'Vape ElfBar TE 30K Puff', desc:'Sabor Bubbaloo Tutti Frutti.', price:27000, cat:'vapes', image:'img/image146.jpg', badge:'new', featured:false},
-  {id:147,name:'Vape ElfBar Ice King 40K Puff', desc:'Sabor Blue Razz Ice.', price:28000, cat:'vapes', image:'img/image147.jpg', badge:'new', featured:false},
-  {id:148,name:'Vape ElfBar Ice King 40K Puff', desc:'Sabor Peach+.', price:28000, cat:'vapes', image:'img/image148.jpg', badge:'new', featured:false},
-  {id:149,name:'Vape ElfBar Ice King 40K Puff', desc:'Sabor Cherry Strazz.', price:28000, cat:'vapes', image:'img/image149.jpg', badge:'new', featured:false},
-  {id:150,name:'Vape ElfBar Ice King 40K Puff', desc:'Sabor Double Apple Ice.', price:28000, cat:'vapes', image:'img/image150.jpg', badge:'new', featured:false},
-  {id:151,name:'Vape ElfBar Ice King 40K Puff', desc:'Sabor Strawberry Watermelon.', price:28000, cat:'vapes', image:'img/image151.jpg', badge:'new', featured:false},
-  {id:152,name:'Vape ElfBar Ice King 40K Puff', desc:'Sabor Watermelon Ice.', price:28000, cat:'vapes', image:'img/image152.jpg', badge:'new', featured:false},
-  {id:153,name:'Vape ElfBar Trio 40K Puff', desc:'Sabor Raspberry Watermelon.', price:30000, cat:'vapes', image:'img/image153.jpg', badge:'new', featured:false},
-  {id:154,name:'Vape ElfBar Trio 40K Puff', desc:'Sabor Strawberry Orange Lime.', price:30000, cat:'vapes', image:'img/image154.jpg', badge:'new', featured:false},
-];
+  if (catErr) console.error('Error cargando categorías:', catErr.message);
+  if (prodErr) console.error('Error cargando productos:', prodErr.message);
+
+  CATS = {};
+  CAT_ORDER = [];
+  (cats || []).forEach(c => {
+    CATS[c.slug] = { name: c.name, icon: ICON_FALLBACKS[c.slug] || '📦' };
+    CAT_ORDER.push(c.slug);
+  });
+
+  PRODUCTS = (prods || []).map(p => {
+    const images = (p.product_images || []).sort((a, b) => a.order_index - b.order_index);
+    const main = images.find(i => i.is_main) || images[0];
+    return {
+      id: p.id,
+      name: p.name,
+      desc: p.short_description || '',
+      price: Number(p.price),
+      oldPrice: p.old_price != null ? Number(p.old_price) : null,
+      cat: p.categories ? p.categories.slug : null,
+      image: main ? main.image_url : '',
+      badge: p.badge || '',
+      featured: !!p.is_featured,
+      stock: p.stock,
+    };
+  });
+
+  populateCategoryFilter();
+}
+
+function populateCategoryFilter() {
+  const sel = $('catFilter');
+  const current = sel.value;
+  sel.innerHTML = '<option value="all">Todas las categorías</option>' +
+    CAT_ORDER.map(slug => `<option value="${slug}">${CATS[slug].name}</option>`).join('');
+  sel.value = CAT_ORDER.includes(current) ? current : 'all';
+}
 
 // ─── ESTADO ──────────────────────────────────────────────────
 let cart = [];
@@ -667,17 +527,17 @@ const fmtPrice = n => '$' + n.toLocaleString('es-AR');
 const waURL = msg => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 
 function getPlaceholderIcon(cat) {
-  const icons = { perfumes:'🌸', auriculares:'🎧', parlantes:'🔊', soportes:'📱', gadgets:'💡', cargadores:'⚡', cables:'🔌', deco:'✨', otros:'📦' };
-  return icons[cat] || '📦';
+  return ICON_FALLBACKS[cat] || '📦';
 }
 
 function cardHTML(p, compact = false) {
-  const badgeMap = { popular:'badge-popular', premium:'badge-premium', new:'badge-new' };
-  const badgeLbl = { popular:'Más consultado', premium:'Premium', new:'Nuevo' };
   const inCart = cart.includes(p.id);
   const imgContent = p.image
     ? `<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
     : '';
+  const priceRow = p.oldPrice != null && p.oldPrice > p.price
+    ? `<div class="card-price-row"><span class="card-price">${fmtPrice(p.price)}</span><span class="card-old-price">${fmtPrice(p.oldPrice)}</span></div>`
+    : `<div class="card-price-row"><span class="card-price">${fmtPrice(p.price)}</span></div>`;
   return `
   <div class="card fade-in" data-id="${p.id}">
     <div class="card-img">
@@ -686,19 +546,19 @@ function cardHTML(p, compact = false) {
         <span style="font-size:2.5rem">${getPlaceholderIcon(p.cat)}</span>
         <span>Sin imagen</span>
       </div>
-      ${p.badge ? `<span class="card-badge ${badgeMap[p.badge]}">${badgeLbl[p.badge]}</span>` : ''}
+      ${p.badge ? `<span class="card-badge badge-${p.badge}">${BADGE_LABELS[p.badge]}</span>` : ''}
     </div>
     <div class="card-body">
-      <div class="card-cat">${CATS[p.cat]?.name || p.cat}</div>
+      <div class="card-cat">${CATS[p.cat]?.name || ''}</div>
       <div class="card-name">${p.name}</div>
       <div class="card-desc">${p.desc}</div>
-      <div class="card-price">${fmtPrice(p.price)}</div>
+      ${priceRow}
       <div class="card-actions">
         <a href="${waURL(`Hola! Quiero consultar por este producto: *${p.name}* — Precio: ${fmtPrice(p.price)} 🙌`)}" target="_blank" class="btn-wa">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
           Consultar
         </a>
-        <button class="btn-add ${inCart ? 'added' : ''}" onclick="toggleCart(${p.id})" title="${inCart ? 'Quitar de consulta' : 'Agregar a consulta'}">${inCart ? '✓' : '+'}</button>
+        <button class="btn-add ${inCart ? 'added' : ''}" onclick="toggleCart('${p.id}')" title="${inCart ? 'Quitar de consulta' : 'Agregar a consulta'}">${inCart ? '✓' : '+'}</button>
       </div>
     </div>
   </div>`;
@@ -734,9 +594,8 @@ function renderProducts() {
     wrap.innerHTML = `<div class="products-grid" style="padding:40px 0">${list.map(p => cardHTML(p)).join('')}</div>`;
   } else {
     // Group by category
-    const order = ['perfumes','auriculares','parlantes','soportes','gadgets','cargadores','cables','vapes','deco','otros'];
     let html = '';
-    for (const cat of order) {
+    for (const cat of CAT_ORDER) {
       const catList = list.filter(p => p.cat === cat);
       if (!catList.length) continue;
       html += `
@@ -751,6 +610,20 @@ function renderProducts() {
         <div class="products-grid">${catList.map(p => cardHTML(p)).join('')}</div>
       </div>`;
     }
+    const noCatList = list.filter(p => !p.cat || !CATS[p.cat]);
+    if (noCatList.length) {
+      html += `
+      <div class="category-block" id="sin-categoria">
+        <div class="category-block-header">
+          <div class="category-block-icon">📦</div>
+          <div>
+            <div class="category-block-title">Otros</div>
+            <div class="category-block-count">${noCatList.length} producto${noCatList.length !== 1 ? 's' : ''}</div>
+          </div>
+        </div>
+        <div class="products-grid">${noCatList.map(p => cardHTML(p)).join('')}</div>
+      </div>`;
+    }
     wrap.innerHTML = html;
   }
   animateVisible();
@@ -759,41 +632,22 @@ function renderProducts() {
 // ─── CART ─────────────────────────────────────────────────────
 function toggleCart(id) {
   const idx = cart.indexOf(id);
-  const adding = idx === -1;
-  if (adding) cart.push(id); else cart.splice(idx, 1);
+  if (idx === -1) cart.push(id); else cart.splice(idx, 1);
   updateCartUI();
-  syncCardButtons(id, adding);
+  renderProducts();
+  renderFeatured();
 }
 
 function removeFromCart(id) {
   cart = cart.filter(x => x !== id);
   updateCartUI();
-  syncCardButtons(id, false);
-}
-
-// Actualiza solo el botón "+/✓" de las tarjetas del producto tocado,
-// sin reconstruir el grid completo (evita el re-render de las 154 fichas en cada click).
-function syncCardButtons(id, adding) {
-  document.querySelectorAll(`.card[data-id="${id}"] .btn-add`).forEach(btn => {
-    btn.classList.toggle('added', adding);
-    btn.textContent = adding ? '✓' : '+';
-    btn.title = adding ? 'Quitar de consulta' : 'Agregar a consulta';
-    if (adding) {
-      btn.classList.remove('pop');
-      void btn.offsetWidth; // reinicia la animación si se togglea rápido
-      btn.classList.add('pop');
-    }
-  });
+  renderProducts();
+  renderFeatured();
 }
 
 function updateCartUI() {
   const count = cart.length;
-  const fabCart = $('fabCart');
   $('cartCount').textContent = count;
-  fabCart.classList.remove('bump');
-  void fabCart.offsetWidth;
-  fabCart.classList.add('bump');
-  setTimeout(() => fabCart.classList.remove('bump'), 250);
   const items = $('cartItems');
   const sendBtn = $('sendCartBtn');
 
@@ -817,7 +671,7 @@ function updateCartUI() {
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-price">${fmtPrice(p.price)}</div>
       </div>
-      <button class="cart-item-remove" onclick="removeFromCart(${p.id})">✕</button>
+      <button class="cart-item-remove" onclick="removeFromCart('${p.id}')">✕</button>
     </div>
   `).join('');
 
@@ -838,12 +692,10 @@ function closeCart() {
 
 function sendCartWhatsApp() {
   const cartProducts = cart.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
-  if (!cartProducts.length) return;
   const total = cartProducts.reduce((s,p) => s + p.price, 0);
-  const lines = cartProducts.map((p,i) => `${i+1}. ${p.name} — ${fmtPrice(p.price)}`).join('\n');
-  const msg = `Hola! Quiero consultar disponibilidad de estos productos (${cartProducts.length}):\n\n${lines}\n\n💰 *Total estimado: ${fmtPrice(total)}*\n\n¿Podés confirmarme stock y forma de envío? ¡Gracias!`;
+  const lines = cartProducts.map(p => `• ${p.name} — ${fmtPrice(p.price)}`).join('\n');
+  const msg = `Hola! Quiero consultar disponibilidad de estos productos:\n\n${lines}\n\n💰 *Total estimado: ${fmtPrice(total)}*\n\n¿Podés confirmarme stock y forma de envío? ¡Gracias!`;
   window.open(waURL(msg), '_blank');
-  closeCart();
 }
 
 // ─── ANIMATIONS ──────────────────────────────────────────────
@@ -861,7 +713,7 @@ function animateVisible() {
 }
 
 // ─── INIT ─────────────────────────────────────────────────────
-function init() {
+async function init() {
   // Apply brand config
   document.title = `${BRAND_NAME} — Catálogo 2026`;
   const brandLogoSVG = `<svg width="26" height="26" viewBox="0 0 100 100" style="flex-shrink:0;border-radius:50%"><defs><linearGradient id="ngr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6D28D9"/><stop offset="100%" stop-color="#DB2777"/></linearGradient></defs><circle cx="50" cy="50" r="50" fill="url(#ngr)"/><path d="M18 52 C18 25 82 25 82 52" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="10" y="48" width="16" height="22" rx="8" fill="white"/><rect x="74" y="48" width="16" height="22" rx="8" fill="white"/></svg>`;
@@ -891,6 +743,11 @@ function init() {
   ['footerWA'].forEach(id => { const el=$(id); if(el){ el.href=waGeneral; el.target='_blank'; } });
   ['ubicacion','ubicacion2'].forEach(id => { const el=$(id); if(el) el.textContent = UBICACION; });
   ['horarios','horarios2'].forEach(id => { const el=$(id); if(el) el.textContent = HORARIOS; });
+
+  $('featuredGrid').innerHTML = `<div class="no-results" style="grid-column:1/-1"><p>Cargando productos…</p></div>`;
+  $('allProductsWrap').innerHTML = `<div class="no-results"><p>Cargando productos…</p></div>`;
+
+  await loadCatalog();
 
   renderFeatured();
   renderProducts();
