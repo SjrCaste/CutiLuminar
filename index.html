@@ -127,6 +127,10 @@ select.filter-select:focus{border-color:var(--gold);background:#fff}
 .btn-add{background:var(--gold-subtle);color:var(--gold);border:1.5px solid rgba(109,40,217,0.25);width:42px;height:42px;border-radius:var(--radius-sm);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;font-weight:700}
 .btn-add:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
 .btn-add.added{background:var(--gold);color:#fff;border-color:var(--gold)}
+@keyframes addPop{0%{transform:scale(1)}45%{transform:scale(1.3)}100%{transform:scale(1)}}
+.btn-add.pop{animation:addPop 0.3s cubic-bezier(0.4,0,0.2,1)}
+.fab-cart{transition:var(--transition), transform 0.25s cubic-bezier(0.4,0,0.2,1)}
+.fab-cart.bump{transform:scale(1.12)}
 
 /* ─── CATEGORY NAV ────────────────────────────────────────── */
 .cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
@@ -263,6 +267,7 @@ footer{background:#0A0A0B;padding:28px 20px;text-align:center}
       <a href="#parlantes">Parlantes</a>
       <a href="#cargadores">Cargadores</a>
       <a href="#cables">Cables</a>
+      <a href="#vapes">Vapes</a>
       <a href="#contacto">Contacto</a>
     </div>
     <a href="#" class="nav-wa" id="navWA">
@@ -463,7 +468,7 @@ const sbClient = createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG
 
 const ICON_FALLBACKS = {
   perfumes:'🌸', auriculares:'🎧', parlantes:'🔊', soportes:'📱', gadgets:'💡',
-  cargadores:'⚡', cables:'🔌', deco:'✨', otros:'📦',
+  cargadores:'⚡', cables:'🔌', vapes:'💨', deco:'✨', otros:'📦',
 };
 const BADGE_LABELS = { nuevo:'Nuevo', oferta:'Oferta', mas_vendido:'Más vendido', sin_stock:'Sin stock' };
 
@@ -632,22 +637,41 @@ function renderProducts() {
 // ─── CART ─────────────────────────────────────────────────────
 function toggleCart(id) {
   const idx = cart.indexOf(id);
-  if (idx === -1) cart.push(id); else cart.splice(idx, 1);
+  const adding = idx === -1;
+  if (adding) cart.push(id); else cart.splice(idx, 1);
   updateCartUI();
-  renderProducts();
-  renderFeatured();
+  syncCardButtons(id, adding);
 }
 
 function removeFromCart(id) {
   cart = cart.filter(x => x !== id);
   updateCartUI();
-  renderProducts();
-  renderFeatured();
+  syncCardButtons(id, false);
+}
+
+// Actualiza solo el botón "+/✓" de las tarjetas del producto tocado,
+// sin reconstruir el grid completo (evita re-render pesado con muchos productos).
+function syncCardButtons(id, adding) {
+  document.querySelectorAll(`.card[data-id="${id}"] .btn-add`).forEach(btn => {
+    btn.classList.toggle('added', adding);
+    btn.textContent = adding ? '✓' : '+';
+    btn.title = adding ? 'Quitar de consulta' : 'Agregar a consulta';
+    if (adding) {
+      btn.classList.remove('pop');
+      void btn.offsetWidth;
+      btn.classList.add('pop');
+    }
+  });
 }
 
 function updateCartUI() {
   const count = cart.length;
+  const fabCart = $('fabCart');
   $('cartCount').textContent = count;
+  fabCart.classList.remove('bump');
+  void fabCart.offsetWidth;
+  fabCart.classList.add('bump');
+  setTimeout(() => fabCart.classList.remove('bump'), 250);
   const items = $('cartItems');
   const sendBtn = $('sendCartBtn');
 
@@ -692,10 +716,12 @@ function closeCart() {
 
 function sendCartWhatsApp() {
   const cartProducts = cart.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+  if (!cartProducts.length) return;
   const total = cartProducts.reduce((s,p) => s + p.price, 0);
-  const lines = cartProducts.map(p => `• ${p.name} — ${fmtPrice(p.price)}`).join('\n');
-  const msg = `Hola! Quiero consultar disponibilidad de estos productos:\n\n${lines}\n\n💰 *Total estimado: ${fmtPrice(total)}*\n\n¿Podés confirmarme stock y forma de envío? ¡Gracias!`;
+  const lines = cartProducts.map((p,i) => `${i+1}. ${p.name} — ${fmtPrice(p.price)}`).join('\n');
+  const msg = `Hola! Quiero consultar disponibilidad de estos productos (${cartProducts.length}):\n\n${lines}\n\n💰 *Total estimado: ${fmtPrice(total)}*\n\n¿Podés confirmarme stock y forma de envío? ¡Gracias!`;
   window.open(waURL(msg), '_blank');
+  closeCart();
 }
 
 // ─── ANIMATIONS ──────────────────────────────────────────────
