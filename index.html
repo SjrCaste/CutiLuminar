@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -149,6 +149,21 @@ select.filter-select:focus{border-color:var(--gold);background:#fff}
 .contact-info-item svg{color:var(--gold);flex-shrink:0}
 .btn-wa-big{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:16px 32px;border-radius:50px;font-size:1rem;font-weight:700;transition:var(--transition)}
 .btn-wa-big:hover{background:#20B858;transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,211,102,0.35)}
+
+/* ─── WHATSAPP CHOOSER ────────────────────────────────────── */
+.wa-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;opacity:0;pointer-events:none;transition:opacity 0.25s}
+.wa-overlay.open{opacity:1;pointer-events:all}
+.wa-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-45%);width:min(340px,90vw);background:#fff;border-radius:var(--radius);z-index:401;opacity:0;pointer-events:none;transition:opacity 0.25s,transform 0.25s;box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+.wa-modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%)}
+.wa-modal-head{padding:18px 20px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.wa-modal-head h3{font-size:0.95rem;font-weight:800;color:var(--black)}
+.wa-modal-close{width:30px;height:30px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;transition:var(--transition)}
+.wa-modal-close:hover{background:var(--border);color:var(--text)}
+.wa-modal-options{padding:16px 20px 20px;display:flex;flex-direction:column;gap:10px}
+.wa-modal-option{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);font-weight:600;font-size:0.88rem;color:var(--text);transition:var(--transition);text-align:left}
+.wa-modal-option:hover{background:#25D366;color:#fff;border-color:#25D366}
+.wa-modal-option svg{flex-shrink:0;color:#25D366}
+.wa-modal-option:hover svg{color:#fff}
 .contact-right{display:flex;flex-direction:column;gap:16px}
 .contact-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);padding:24px;display:flex;align-items:center;gap:16px}
 .contact-card-icon{width:48px;height:48px;border-radius:12px;background:rgba(109,40,217,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -219,23 +234,114 @@ footer{background:#0A0A0B;padding:28px 20px;text-align:center}
 .category-block-title{font-size:1.2rem;font-weight:800;color:var(--black)}
 .category-block-count{font-size:0.78rem;color:var(--muted);margin-top:2px}
 
+
+/* ─── CAT PILLS MOBILE ──────────────────────────────────── */
+.cat-pills-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 100%;
+}
+.cat-pills-container::-webkit-scrollbar {
+  display: none;
+}
+.cat-pill {
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.cat-pill.active {
+  background: var(--black);
+  color: #fff;
+  border-color: var(--black);
+}
+
+/* ─── BOTTOM NAV MOBILE ──────────────────────────────────── */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  padding: 8px 20px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  justify-content: space-between;
+  align-items: center;
+}
+.bn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  position: relative;
+}
+.bn-item.active {
+  color: var(--gold);
+}
+.bn-item svg {
+  width: 24px;
+  height: 24px;
+}
+.bn-badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: var(--gold);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ─── RESPONSIVE ──────────────────────────────────────────── */
 @media(max-width:768px){
+  body {
+    padding-bottom: 70px;
+  }
   .nav-links{display:none}
   .contact-inner{grid-template-columns:1fr}
   .contact-right{display:none}
   .footer-inner{flex-direction:column;text-align:center}
-  .products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-  .featured-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  /* Force 2 columns on mobile */
+  .products-grid{grid-template-columns:repeat(2, 1fr);gap:12px}
+  .featured-grid{grid-template-columns:repeat(2, 1fr);gap:12px}
   .card-body{padding:12px}
   .card-name{font-size:0.85rem}
   .card-price{font-size:1.05rem}
   .search-bar-inner{gap:8px}
-  select.filter-select{min-width:0;flex:1}
+  
+  /* Hide the select and show horizontal pills */
+  #catFilter { display: none; }
+  .bottom-nav { display: flex; }
+  
+  /* Hide FABs on mobile because of Bottom Nav */
+  .fab-group { display: none !important; }
 }
-@media(max-width:480px){
-  .products-grid{grid-template-columns:1fr 1fr}
-  .featured-grid{grid-template-columns:1fr 1fr}
+@media(max-width:360px){
+  .products-grid{grid-template-columns:1fr}
+  .featured-grid{grid-template-columns:1fr}
 }
 
 /* ─── SKELETON ──────────────────────────────────────────── */
@@ -339,6 +445,7 @@ footer{background:#0A0A0B;padding:28px 20px;text-align:center}
       <span class="result-count" id="resultCount"></span>
       <button class="btn-clear" id="clearBtn">Limpiar</button>
     </div>
+    <div class="cat-pills-container" id="catPills"></div>
   </div>
 </div>
 
@@ -451,10 +558,46 @@ footer{background:#0A0A0B;padding:28px 20px;text-align:center}
   </div>
 </div>
 
+<!-- WHATSAPP CHOOSER -->
+<div class="wa-overlay" id="waOverlay"></div>
+<div class="wa-modal" id="waModal">
+  <div class="wa-modal-head">
+    <h3>¿A qué WhatsApp querés escribir?</h3>
+    <button class="wa-modal-close" id="waModalClose">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="wa-modal-options" id="waModalOptions"></div>
+</div>
+
+<!-- BOTTOM NAV (MOBILE) -->
+<nav class="bottom-nav">
+  <a href="#inicio" class="bn-item active">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Inicio</span>
+  </a>
+  <a href="#productos" class="bn-item" onclick="document.getElementById('searchInput').focus()">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <span>Buscar</span>
+  </a>
+  <button class="bn-item" id="bnCart">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.99-1.61L23 6H6"/></svg>
+    <span>Consulta</span>
+    <div class="bn-badge" id="bnCartCount" style="display:none">0</div>
+  </button>
+  <a href="#" class="bn-item nav-wa-hero">
+    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+    <span>WhatsApp</span>
+  </a>
+</nav>
+
 <script>
 // ─── CONFIGURACIÓN ──────────────────────────────────────────
 // EDITAR ESTOS VALORES:
-const WA_NUMBER = '549XXXXXXXXXX'; // ← Cambiá este número
+const WA_NUMBERS = [
+  { label: 'WhatsApp 1', display: '11 6975-9494', number: '5491169759494' },
+  { label: 'WhatsApp 2', display: '11 2268-5104', number: '5491122685104' },
+]; // ← Todos los banners/botones de WhatsApp del sitio muestran estas dos opciones
 const BRAND_NAME = 'Cuti Luminar'; // ← Cambiá este nombre
 const INSTAGRAM = '@cutiluminar_ok'; // ← Cambiá tu Instagram
 const UBICACION = 'Argentina';      // ← Cambiá tu ubicación
@@ -512,13 +655,41 @@ async function loadCatalog() {
   populateCategoryFilter();
 }
 
+
 function populateCategoryFilter() {
   const sel = $('catFilter');
   const current = sel.value;
   sel.innerHTML = '<option value="all">Todas las categorías</option>' +
     CAT_ORDER.map(slug => `<option value="${slug}">${CATS[slug].name}</option>`).join('');
   sel.value = CAT_ORDER.includes(current) ? current : 'all';
+  
+  // Render pills
+  renderCatPills();
 }
+
+function renderCatPills() {
+  const pills = $('catPills');
+  if (!pills) return;
+  
+  let html = `<div class="cat-pill ${filterCat === 'all' ? 'active' : ''}" onclick="setFilterCat('all')">Todas</div>`;
+  html += CAT_ORDER.map(slug => 
+    `<div class="cat-pill ${filterCat === slug ? 'active' : ''}" onclick="setFilterCat('${slug}')">${CATS[slug].name}</div>`
+  ).join('');
+  pills.innerHTML = html;
+}
+
+function setFilterCat(cat) {
+  filterCat = cat;
+  if ($('catFilter')) $('catFilter').value = cat;
+  renderCatPills();
+  renderProducts();
+  const prodsEl = $('productos');
+  if (prodsEl) {
+    const y = prodsEl.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
 
 // ─── ESTADO ──────────────────────────────────────────────────
 let cart = [];
@@ -529,7 +700,33 @@ let filterSort = 'default';
 // ─── HELPERS ─────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const fmtPrice = n => '$' + n.toLocaleString('es-AR');
-const waURL = msg => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+// ─── SELECTOR DE WHATSAPP (dos números a elegir) ──────────────
+let pendingWaMsg = '';
+function openWaChooser(msg) {
+  pendingWaMsg = msg;
+  $('waModalOptions').innerHTML = WA_NUMBERS.map((w, i) => `
+    <button class="wa-modal-option" onclick="chooseWaNumber(${i})">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
+      ${w.label} — ${w.display}
+    </button>`).join('');
+  $('waOverlay').classList.add('open');
+  $('waModal').classList.add('open');
+}
+function chooseWaNumber(i) {
+  const w = WA_NUMBERS[i];
+  window.open(`https://wa.me/${w.number}?text=${encodeURIComponent(pendingWaMsg)}`, '_blank');
+  closeWaChooser();
+}
+function closeWaChooser() {
+  $('waOverlay').classList.remove('open');
+  $('waModal').classList.remove('open');
+}
+function getProductWaMsg(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return '';
+  return `Hola! Quiero consultar por este producto: *${p.name}* — Precio: ${fmtPrice(p.price)} 🙌`;
+}
 
 function getPlaceholderIcon(cat) {
   return ICON_FALLBACKS[cat] || '📦';
@@ -559,7 +756,7 @@ function cardHTML(p, compact = false) {
       <div class="card-desc">${p.desc}</div>
       ${priceRow}
       <div class="card-actions">
-        <a href="${waURL(`Hola! Quiero consultar por este producto: *${p.name}* — Precio: ${fmtPrice(p.price)} 🙌`)}" target="_blank" class="btn-wa">
+        <a href="#" onclick="openWaChooser(getProductWaMsg('${p.id}')); return false;" class="btn-wa">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.528 5.855L.057 23.882l6.168-1.438A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.878 9.878 0 01-5.031-1.375l-.36-.214-3.724.868.898-3.617-.235-.373A9.854 9.854 0 012.106 12C2.106 6.532 6.532 2.106 12 2.106S21.894 6.532 21.894 12 17.468 21.894 12 21.894z"/></svg>
           Consultar
         </a>
@@ -578,6 +775,11 @@ function renderFeatured() {
 
 // ─── RENDER ALL PRODUCTS ──────────────────────────────────────
 function renderProducts() {
+  const featuredSec = $('featured');
+  if (featuredSec) {
+    featuredSec.style.display = (filterCat !== 'all' || filterSearch !== '') ? 'none' : '';
+  }
+
   let list = PRODUCTS.filter(p => {
     const matchCat = filterCat === 'all' || p.cat === filterCat;
     const matchSearch = !filterSearch || p.name.toLowerCase().includes(filterSearch) || p.desc.toLowerCase().includes(filterSearch);
@@ -720,8 +922,8 @@ function sendCartWhatsApp() {
   const total = cartProducts.reduce((s,p) => s + p.price, 0);
   const lines = cartProducts.map((p,i) => `${i+1}. ${p.name} — ${fmtPrice(p.price)}`).join('\n');
   const msg = `Hola! Quiero consultar disponibilidad de estos productos (${cartProducts.length}):\n\n${lines}\n\n💰 *Total estimado: ${fmtPrice(total)}*\n\n¿Podés confirmarme stock y forma de envío? ¡Gracias!`;
-  window.open(waURL(msg), '_blank');
   closeCart();
+  openWaChooser(msg);
 }
 
 // ─── ANIMATIONS ──────────────────────────────────────────────
@@ -754,19 +956,20 @@ async function init() {
     }
   });
 
-  const waGeneral = waURL('Hola! Me gustaría consultar sobre sus productos 🙌');
-  ['navWA','fabWA','contactWA'].forEach(id => {
+  const waGeneralMsg = 'Hola! Me gustaría consultar sobre sus productos 🙌';
+  ['navWA','fabWA','contactWA','footerWA'].forEach(id => {
     const el = $(id);
-    if (el) { el.href = waGeneral; el.target = '_blank'; el.rel = 'noopener'; }
+    if (el) el.addEventListener('click', e => { e.preventDefault(); openWaChooser(waGeneralMsg); });
   });
   document.querySelectorAll('.nav-wa-hero').forEach(el => {
-    el.href = waGeneral; el.target = '_blank'; el.rel = 'noopener';
+    el.addEventListener('click', e => { e.preventDefault(); openWaChooser(waGeneralMsg); });
   });
+  $('waModalClose').addEventListener('click', closeWaChooser);
+  $('waOverlay').addEventListener('click', closeWaChooser);
 
   const igURL = `https://instagram.com/${INSTAGRAM.replace('@','')}`;
   ['instagram','instagram2'].forEach(id => { const el=$(id); if(el) el.textContent = INSTAGRAM; });
   ['footerIG'].forEach(id => { const el=$(id); if(el){ el.href=igURL; el.target='_blank'; } });
-  ['footerWA'].forEach(id => { const el=$(id); if(el){ el.href=waGeneral; el.target='_blank'; } });
   ['ubicacion','ubicacion2'].forEach(id => { const el=$(id); if(el) el.textContent = UBICACION; });
   ['horarios','horarios2'].forEach(id => { const el=$(id); if(el) el.textContent = HORARIOS; });
 
@@ -784,14 +987,18 @@ async function init() {
     filterSearch = e.target.value.toLowerCase().trim();
     renderProducts();
   });
-  $('catFilter').addEventListener('change', e => {
-    filterCat = e.target.value;
-    renderProducts();
-  });
+  
+  if ($('catFilter')) {
+    $('catFilter').addEventListener('change', e => {
+      setFilterCat(e.target.value);
+    });
+  }
+  
   $('sortOrder').addEventListener('change', e => {
     filterSort = e.target.value;
     renderProducts();
   });
+  
   $('clearBtn').addEventListener('click', () => {
     filterSearch = ''; filterCat = 'all'; filterSort = 'default';
     $('searchInput').value = '';
@@ -799,7 +1006,10 @@ async function init() {
     $('sortOrder').value = 'default';
     renderProducts();
   });
+  
   $('fabCart').addEventListener('click', openCart);
+  if ($('bnCart')) $('bnCart').addEventListener('click', openCart);
+
   $('cartClose').addEventListener('click', closeCart);
   $('cartOverlay').addEventListener('click', closeCart);
   $('sendCartBtn').addEventListener('click', sendCartWhatsApp);
